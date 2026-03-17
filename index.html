@@ -34,17 +34,20 @@ img{display:block}
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
 @keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
-@keyframes heartPop{0%,100%{transform:scale(1)}40%{transform:scale(1.4)}70%{transform:scale(1.1)}}
 @keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
+@keyframes pulse{0%,100%{opacity:1}50%{opacity:.4}}
 
 /* NAV */
 .nav{position:sticky;top:0;z-index:200;height:52px;background:var(--black);border-bottom:1px solid var(--g2);display:flex;align-items:center}
 .nav-inner{max-width:960px;margin:0 auto;width:100%;padding:0 16px;display:flex;align-items:center;justify-content:space-between}
-.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px;color:var(--pure)}
-.nav-right{display:flex;align-items:center;gap:4px}
-.nav-icon{width:38px;height:38px;display:flex;align-items:center;justify-content:center;color:var(--g5);transition:color .15s;border-radius:2px}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px;color:var(--pure);user-select:none;cursor:default}
+.nav-right{display:flex;align-items:center;gap:6px}
+.nav-icon{width:36px;height:36px;display:flex;align-items:center;justify-content:center;color:var(--g5);transition:color .15s}
 .nav-icon:hover{color:var(--pure)}
-.nav-msg{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;padding:0 8px;color:var(--g5);white-space:nowrap}
+.nav-icon:disabled{opacity:.3;cursor:default}
+.nav-dot{width:6px;height:6px;background:var(--pure);border-radius:50%}
+.sync-indicator{display:flex;align-items:center;gap:6px;font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--g4)}
+.sync-indicator.active{color:var(--g5);animation:pulse 1.2s ease infinite}
 
 /* PROFILE */
 .profile-section{max-width:960px;margin:0 auto;padding:28px 16px 22px;display:flex;gap:32px;align-items:flex-start;border-bottom:1px solid var(--g2)}
@@ -53,20 +56,14 @@ img{display:block}
 .p-body{flex:1;min-width:0}
 .p-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
 .p-handle{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--pure)}
-.btn-ghost{padding:5px 14px;border:1px solid var(--g3);font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--g6);transition:border-color .15s,color .15s;display:inline-flex;align-items:center;gap:6px}
-.btn-ghost:hover{border-color:var(--g6);color:var(--pure)}
-.btn-ghost:disabled{opacity:.3;cursor:not-allowed}
-.btn-solid{padding:11px;background:var(--pure);font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--black);font-weight:600;transition:background .15s}
-.btn-solid:hover{background:var(--white)}
 .p-stats{display:flex;margin-bottom:12px}
 .stat{padding-right:20px;margin-right:20px;border-right:1px solid var(--g2)}
-.stat:last-child{border-right:none}
+.stat:last-child{border-right:none;padding-right:0;margin-right:0}
 .stat-n{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;color:var(--pure);line-height:1}
 .stat-l{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--g5);margin-top:2px}
 .p-name{font-size:14px;font-weight:500;color:var(--pure);margin-bottom:3px}
 .p-bio{font-size:13px;color:var(--g5);line-height:1.6;white-space:pre-wrap;margin-bottom:4px}
 .p-link{font-size:13px;color:var(--g6);font-weight:500}
-.tg-tag{display:inline-flex;align-items:center;gap:5px;font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--g4);border:1px solid var(--g3);padding:3px 8px;margin-top:8px}
 
 /* HIGHLIGHTS */
 .hl-section{border-bottom:1px solid var(--g2)}
@@ -79,7 +76,7 @@ img{display:block}
 
 /* TABS */
 .tabs-section{border-bottom:1px solid var(--g2)}
-.tabs-inner{max-width:960px;margin:0 auto;display:flex;padding:0 16px;gap:36px}
+.tabs-inner{max-width:960px;margin:0 auto;display:flex;padding:0 16px}
 .tab-btn{padding:12px 0;font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--g4);border-bottom:1px solid transparent;margin-bottom:-1px;display:flex;align-items:center;gap:6px;transition:color .15s}
 .tab-btn.active{color:var(--pure);border-bottom-color:var(--pure)}
 
@@ -88,72 +85,57 @@ img{display:block}
 .photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
 .photo-cell{position:relative;aspect-ratio:1/1;overflow:hidden;cursor:pointer;background:var(--g2)}
 .photo-cell img{width:100%;height:100%;object-fit:cover;transition:transform .3s ease,filter .3s ease}
-.photo-cell:hover img{transform:scale(1.04);filter:brightness(.65)}
-.ov{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:24px;opacity:0;transition:opacity .2s;pointer-events:none}
-.photo-cell:hover .ov{opacity:1}
-.ov-stat{display:flex;align-items:center;gap:5px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:600;letter-spacing:1px;color:var(--pure)}
+.photo-cell:hover img{transform:scale(1.04);filter:brightness(.7)}
+/* admin delete btn */
+.del-btn{position:absolute;top:6px;right:6px;z-index:10;width:28px;height:28px;background:rgba(0,0,0,.78);border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;color:var(--g6);transition:background .15s,color .15s;opacity:0}
+.photo-cell:hover .del-btn{opacity:1}
+.del-btn:hover{background:rgba(185,28,28,.9);color:#fff;border-color:transparent}
 
 /* EMPTY */
 .empty-wrap{display:flex;flex-direction:column;align-items:center;padding:80px 20px;gap:16px;color:var(--g4)}
 .empty-wrap h3{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:3px;color:var(--g3)}
 .empty-wrap p{font-size:13px;color:var(--g4);text-align:center;max-width:260px;line-height:1.7}
 
-/* MODAL */
+/* MODAL — view only, full image focus */
 .modal-bg{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.97);display:flex;align-items:center;justify-content:center;animation:fadeIn .15s ease;overflow:hidden}
-.modal-wrap{display:flex;flex-direction:row;width:min(920px,96vw);height:min(640px,90vh);background:var(--g1);border:1px solid var(--g2);animation:slideUp .2s ease;overflow:hidden}
-.modal-photo{flex:1;min-width:0;background:var(--black);display:flex;align-items:center;justify-content:center}
-.modal-photo img{width:100%;height:100%;object-fit:contain}
-.modal-side{width:300px;flex-shrink:0;display:flex;flex-direction:column;border-left:1px solid var(--g2);overflow:hidden}
-.modal-head{padding:12px 14px;border-bottom:1px solid var(--g2);display:flex;align-items:center;gap:10px;flex-shrink:0}
-.modal-mini{width:28px;height:28px;overflow:hidden;flex-shrink:0;background:var(--g3)}
-.modal-mini img{width:100%;height:100%;object-fit:cover}
-.modal-uname{font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:var(--white)}
-.modal-body{flex:1;overflow-y:auto;padding:14px;-webkit-overflow-scrolling:touch}
-.modal-cap{font-size:13px;color:var(--g5);line-height:1.6;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--g2)}
-.modal-cap strong{color:var(--g6);font-weight:500}
-.modal-cmt{margin-bottom:12px}
-.modal-cmt-txt{font-size:13px;color:var(--g5);line-height:1.5}
-.modal-cmt-txt strong{color:var(--g6);font-weight:500}
-.modal-cmt-date{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--g4);margin-top:3px}
-.modal-acts{border-top:1px solid var(--g2);padding:10px 14px;flex-shrink:0}
-.modal-act-row{display:flex;gap:12px;align-items:center;margin-bottom:8px}
-.act{color:var(--g5);display:flex;align-items:center;transition:color .12s,transform .1s;padding:3px}
-.act:hover{color:var(--white);transform:scale(1.08)}
-.modal-lcount{font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--g5);margin-bottom:3px}
-.modal-mdate{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--g4)}
-.modal-inp-row{border-top:1px solid var(--g2);display:flex;align-items:center;gap:8px;padding:10px 14px;flex-shrink:0}
-.modal-inp{flex:1;min-width:0;font-size:13px;background:none;border:none;color:var(--white)}
-.modal-inp::placeholder{color:var(--g4)}
-.modal-post-btn{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--g5);transition:color .15s}
-.modal-post-btn:not(:disabled):hover{color:var(--pure)}
-.modal-post-btn:disabled{opacity:.3;cursor:default}
-.modal-x{position:fixed;top:12px;right:12px;z-index:301;width:36px;height:36px;background:var(--g2);display:flex;align-items:center;justify-content:center;color:var(--g5);transition:background .15s,color .15s}
+.modal-img-wrap{
+  position:relative;
+  display:flex;align-items:center;justify-content:center;
+  width:min(800px,96vw);
+  max-height:92vh;
+  animation:slideUp .2s ease;
+}
+.modal-img-wrap img{
+  max-width:100%;max-height:88vh;
+  object-fit:contain;
+  display:block;
+}
+.modal-caption{
+  position:absolute;bottom:0;left:0;right:0;
+  padding:28px 16px 16px;
+  background:linear-gradient(transparent,rgba(0,0,0,.82));
+  font-size:13px;color:var(--g6);line-height:1.5;
+}
+.modal-caption .cap-date{
+  font-family:'Barlow Condensed',sans-serif;
+  font-size:10px;letter-spacing:1.5px;text-transform:uppercase;
+  color:var(--g4);margin-top:4px;
+}
+.modal-x{position:fixed;top:12px;right:12px;z-index:301;width:36px;height:36px;background:rgba(30,30,30,.85);display:flex;align-items:center;justify-content:center;color:var(--g5);transition:background .15s,color .15s;border-radius:2px}
 .modal-x:hover{background:var(--g3);color:var(--pure)}
-.modal-arr{position:fixed;z-index:301;top:50%;transform:translateY(-50%);width:38px;height:38px;background:var(--g2);display:flex;align-items:center;justify-content:center;color:var(--g5);border:1px solid var(--g3);transition:background .15s,color .15s}
+.modal-arr{position:fixed;z-index:301;top:50%;transform:translateY(-50%);width:40px;height:40px;background:rgba(20,20,20,.8);border:1px solid var(--g3);display:flex;align-items:center;justify-content:center;color:var(--g5);transition:background .15s,color .15s}
 .modal-arr:hover{background:var(--g3);color:var(--pure)}
+.modal-del-btn{position:fixed;top:12px;left:12px;z-index:301;display:flex;align-items:center;gap:6px;font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--g4);background:rgba(20,20,20,.85);border:1px solid var(--g3);padding:0 12px;height:36px;transition:color .15s,border-color .15s,background .15s}
+.modal-del-btn:hover{color:#fff;border-color:#b91c1c;background:rgba(185,28,28,.3)}
 
-/* EDIT */
-.edit-wrap{max-width:440px;margin:0 auto;padding:40px 16px 60px;animation:fadeIn .2s ease}
-.edit-title{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:4px;color:var(--pure);margin-bottom:28px}
-.back-btn{display:inline-flex;align-items:center;gap:6px;font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--g5);margin-bottom:24px;transition:color .15s}
-.back-btn:hover{color:var(--white)}
-.f-lbl{display:block;font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--g5);margin-bottom:6px}
-.f-inp{display:block;width:100%;padding:10px 12px;background:var(--g1);border:1px solid var(--g3);font-size:14px;color:var(--white);transition:border-color .15s;-webkit-appearance:none}
-.f-inp:focus{border-color:var(--g5)}
-.f-inp::placeholder{color:var(--g4)}
-textarea.f-inp{resize:vertical;font-size:13px}
-
-/* ADMIN */
+/* ADMIN BAR */
 .admin-bar{background:var(--g1);border-bottom:1px solid var(--g3)}
 .admin-bar-inner{max-width:960px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;justify-content:space-between}
-.admin-badge{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;background:var(--pure);color:var(--black);padding:3px 10px;display:inline-flex;align-items:center;gap:6px;font-weight:600}
+.admin-badge{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;background:var(--pure);color:var(--black);padding:3px 10px;font-weight:600}
 .admin-exit{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--g5);border:1px solid var(--g3);padding:3px 10px;transition:color .15s,border-color .15s}
 .admin-exit:hover{color:var(--pure);border-color:var(--g5)}
-.del-btn{position:absolute;top:6px;right:6px;z-index:10;width:28px;height:28px;background:rgba(0,0,0,.78);border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;color:var(--g6);transition:background .15s,color .15s;opacity:0}
-.photo-cell:hover .del-btn,.photo-cell.admin-active .del-btn{opacity:1}
-.del-btn:hover{background:rgba(185,28,28,.9);color:#fff;border-color:transparent}
-.modal-del-btn{display:flex;align-items:center;gap:6px;font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--g4);border:1px solid var(--g3);padding:5px 12px;transition:color .15s,border-color .15s,background .15s}
-.modal-del-btn:hover{color:#fff;border-color:#b91c1c;background:rgba(185,28,28,.2)}
+
+/* CONFIRM */
 .confirm-overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.88);display:flex;align-items:center;justify-content:center;animation:fadeIn .1s ease}
 .confirm-box{background:var(--g1);border:1px solid var(--g3);padding:28px 24px;width:min(320px,90vw);animation:slideUp .15s ease}
 .confirm-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px;color:var(--pure);margin-bottom:8px}
@@ -163,29 +145,47 @@ textarea.f-inp{resize:vertical;font-size:13px}
 .confirm-cancel:hover{color:var(--pure);border-color:var(--g5)}
 .confirm-del{flex:1;padding:10px;background:#b91c1c;font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:#fff;font-weight:600;transition:background .15s}
 .confirm-del:hover{background:#dc2626}
-.login-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+
+/* ADMIN LOGIN */
+.login-wrap{display:flex;align-items:center;justify-content:center;min-height:calc(100vh - 52px);padding:20px}
 .login-box{width:min(340px,100%);animation:slideUp .2s ease}
 .login-title{font-family:'Bebas Neue',sans-serif;font-size:40px;letter-spacing:6px;color:var(--pure);margin-bottom:4px}
 .login-sub{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--g4);margin-bottom:32px}
 .login-err{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#b91c1c;margin-top:8px}
-.nav-admin-dot{width:6px;height:6px;background:var(--pure);border-radius:50%;margin-left:2px}
+.f-lbl{display:block;font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--g5);margin-bottom:6px}
+.f-inp{display:block;width:100%;padding:10px 12px;background:var(--g1);border:1px solid var(--g3);font-size:14px;color:var(--white);transition:border-color .15s;-webkit-appearance:none}
+.f-inp:focus{border-color:var(--g5)}
+.f-inp::placeholder{color:var(--g4)}
+.btn-ghost{padding:5px 14px;border:1px solid var(--g3);font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--g6);transition:border-color .15s,color .15s;display:inline-flex;align-items:center;gap:6px}
+.btn-ghost:hover{border-color:var(--g6);color:var(--pure)}
+.btn-ghost:disabled{opacity:.3;cursor:not-allowed}
+.btn-solid{padding:11px;background:var(--pure);font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--black);font-weight:600;transition:background .15s}
+.btn-solid:hover{background:var(--white)}
+
+/* EDIT PROFILE */
+.edit-wrap{max-width:440px;margin:0 auto;padding:40px 16px 60px;animation:fadeIn .2s ease}
+.edit-title{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:4px;color:var(--pure);margin-bottom:28px}
+.back-btn{display:inline-flex;align-items:center;gap:6px;font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--g5);margin-bottom:24px;transition:color .15s}
+.back-btn:hover{color:var(--white)}
+textarea.f-inp{resize:vertical;font-size:13px}
 
 /* RESPONSIVE */
 @media(max-width:680px){
   .profile-section{padding:16px 12px;gap:14px}
   .p-avatar{width:72px;height:72px}
   .p-handle{font-size:17px}
-  .p-top{gap:8px}
   .stat{padding-right:14px;margin-right:14px}
   .stat-n{font-size:18px}
-  .nav-msg{display:none}
 
   .modal-bg{align-items:flex-end}
-  .modal-wrap{flex-direction:column;width:100vw;height:100dvh;border:none;border-radius:0}
-  .modal-photo{flex:0 0 auto;height:54vw;min-height:180px}
-  .modal-side{width:100%;border-left:none;border-top:1px solid var(--g2);flex:1;min-height:0}
+  .modal-img-wrap{
+    width:100vw;max-height:100dvh;
+    border-radius:0;
+  }
+  .modal-img-wrap img{max-height:70dvh;width:100%}
   .modal-arr{display:none}
   .modal-x{top:8px;right:8px;width:32px;height:32px}
+  .modal-del-btn{top:8px;left:8px;height:32px;font-size:10px}
 
   .photo-grid{gap:1px}
   .hl-inner{padding:12px}
@@ -193,14 +193,13 @@ textarea.f-inp{resize:vertical;font-size:13px}
 }
 @media(max-width:380px){
   .p-avatar{width:62px;height:62px}
-  .btn-ghost{font-size:11px;padding:4px 10px}
 }
 </style>
 </head>
 <body>
 <div id="root"></div>
 <script type="text/babel">
-const { useState, useEffect, useCallback } = React;
+const { useState, useEffect, useCallback, useRef } = React;
 
 const HARDCODED = {
   token:    "8662339296:AAEMzUBkgN9nuDLmDgxE93l5IarlGiB0Ikc",
@@ -215,46 +214,26 @@ const S = {
   set: (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
 };
 
-async function tgCall(token, method, params = {}) {
-  const url = new URL(`https://api.telegram.org/bot${token}/${method}`);
-  for (const [k, v] of Object.entries(params))
-    url.searchParams.set(k, typeof v === "object" ? JSON.stringify(v) : String(v));
-  const r = await fetch(url.toString());
+async function tgCall(method, params = {}) {
+  const r = await fetch(`https://api.telegram.org/bot${HARDCODED.token}/${method}`, {
+    method: "POST",
+    headers: { "Content-Type": "application/json" },
+    body: JSON.stringify(params),
+  });
   const d = await r.json();
   if (!d.ok) throw new Error(d.description || "Telegram error");
   return d.result;
 }
 
+/* Icons */
 const I = {
-  Heart: ({ on, s=22 }) => (
-    <svg width={s} height={s} viewBox="0 0 24 24"
-      fill={on?"#fff":"none"} stroke="currentColor" strokeWidth="1.8"
-      strokeLinecap="round" strokeLinejoin="round">
-      <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
-    </svg>
-  ),
-  Msg: ({ s=22 }) => (
-    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
-    </svg>
-  ),
-  Send: ({ s=22 }) => (
-    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
-    </svg>
-  ),
-  Save: ({ s=22 }) => (
-    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
-    </svg>
-  ),
   Grid: ({ s=13 }) => (
     <svg width={s} height={s} viewBox="0 0 24 24" fill="currentColor">
       <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
       <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
     </svg>
   ),
-  Gear: ({ s=18 }) => (
+  Gear: ({ s=17 }) => (
     <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="12" cy="12" r="3"/>
       <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
@@ -263,7 +242,7 @@ const I = {
   Sync: ({ s=16, spin }) => (
     <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor"
       strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
-      style={spin?{animation:"spin .8s linear infinite",display:"block"}:{display:"block"}}>
+      style={spin ? {animation:"spin .8s linear infinite",display:"block"} : {display:"block"}}>
       <polyline points="1 4 1 10 7 10"/><polyline points="23 20 23 14 17 14"/>
       <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/>
     </svg>
@@ -273,10 +252,10 @@ const I = {
       <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
     </svg>
   ),
-  ChevL: ({ s=16 }) => (
+  ChevL: ({ s=18 }) => (
     <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"/></svg>
   ),
-  ChevR: ({ s=16 }) => (
+  ChevR: ({ s=18 }) => (
     <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
   ),
   Camera: ({ s=30 }) => (
@@ -285,117 +264,88 @@ const I = {
       <circle cx="12" cy="13" r="4"/>
     </svg>
   ),
-  Tg: ({ s=11 }) => (
-    <svg width={s} height={s} viewBox="0 0 24 24" fill="currentColor">
-      <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.17 13.835l-2.965-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.651.75z"/>
-    </svg>
-  ),
-  Trash: ({ s=14 }) => (
+  Trash: ({ s=13 }) => (
     <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
-      <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
-    </svg>
-  ),
-  Lock: ({ s=16 }) => (
-    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
-      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+      <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/>
+      <path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
     </svg>
   ),
 };
 
+/* ── App ──────────────────────────────────────── */
 function App() {
-  const [cfg, setCfg]         = useState(null);
-  const [photos, setPhotos]   = useState([]);
-  const [likes, setLikes]     = useState({});
-  const [cmts, setCmts]       = useState({});
-  const [sel, setSel]         = useState(null);
-  const [editing, setEditing] = useState(false);
-  const [syncing, setSyncing] = useState(false);
-  const [msg, setMsg]         = useState("");
-  const [ready, setReady]     = useState(false);
-  const [isAdmin, setIsAdmin] = useState(false);
+  const [photos, setPhotos]     = useState([]);
+  const [cfg, setCfg]           = useState(null);
+  const [sel, setSel]           = useState(null);
+  const [syncing, setSyncing]   = useState(false);
+  const [ready, setReady]       = useState(false);
+  const [isAdmin, setIsAdmin]   = useState(false);
   const [showLogin, setShowLogin] = useState(false);
-  const [confirmDel, setConfirmDel] = useState(null); // photo to delete
+  const [editing, setEditing]   = useState(false);
+  const [confirmDel, setConfirmDel] = useState(null);
 
+  // Secret triple-click counter on logo
+  const logoClicks = useRef(0);
+  const logoTimer  = useRef(null);
+  const handleLogoClick = () => {
+    logoClicks.current++;
+    clearTimeout(logoTimer.current);
+    logoTimer.current = setTimeout(() => { logoClicks.current = 0; }, 600);
+    if (logoClicks.current >= 3) { logoClicks.current = 0; setShowLogin(true); }
+  };
+
+  // Load cached data then auto-sync on mount
   useEffect(() => {
     const saved = S.get("tgp_cfg") || {};
-    const merged = {
-      ...saved,
-      token:    HARDCODED.token,
-      chatId:   HARDCODED.chatId,
-      username: HARDCODED.username,
-      name:     HARDCODED.name,
-    };
-    setCfg(merged); S.set("tgp_cfg", merged);
+    setCfg({ ...saved, username: HARDCODED.username, name: HARDCODED.name });
     setPhotos(S.get("tgp_photos") || []);
-    setLikes(S.get("tgp_likes") || {});
-    setCmts(S.get("tgp_cmts") || {});
     setReady(true);
   }, []);
 
-  const sync = useCallback(async () => {
-    if (!cfg?.token) return;
-    setSyncing(true); setMsg("Syncing…");
+  // Auto-sync once ready
+  useEffect(() => {
+    if (ready) doSync();
+  }, [ready]);
+
+  const doSync = useCallback(async () => {
+    setSyncing(true);
     try {
-      const lastId = S.get("tgp_lastId") || 0;
-      const updates = await tgCall(cfg.token, "getUpdates", {
-        offset: lastId + 1, limit: 100,
-        allowed_updates: ["channel_post","message"],
+      // Always fetch from offset 0 to catch all photos across all devices
+      const updates = await tgCall("getUpdates", {
+        offset: 0,
+        limit: 100,
+        allowed_updates: ["channel_post", "message"],
       });
-      let maxId = lastId;
-      const fresh = [];
+
+      const fetched = [];
       for (const u of updates) {
-        maxId = Math.max(maxId, u.update_id);
         const m = u.channel_post || u.message;
         if (!m?.photo) continue;
-        const ph = m.photo[m.photo.length-1];
+        const ph = m.photo[m.photo.length - 1];
         try {
-          const file = await tgCall(cfg.token, "getFile", { file_id: ph.file_id });
-          fresh.push({
-            id: ph.file_unique_id,
+          const file = await tgCall("getFile", { file_id: ph.file_id });
+          fetched.push({
+            id:         ph.file_unique_id,
             message_id: m.message_id,
-            url: `https://api.telegram.org/file/bot${cfg.token}/${file.file_path}`,
-            caption: m.caption||"", date: m.date,
-            width: ph.width, height: ph.height,
+            url:        `https://api.telegram.org/file/bot${HARDCODED.token}/${file.file_path}`,
+            caption:    m.caption || "",
+            date:       m.date,
           });
         } catch {}
       }
-      if (updates.length > 0) S.set("tgp_lastId", maxId);
-      if (fresh.length > 0) {
-        const all = [...fresh, ...photos].sort((a,b)=>b.date-a.date);
-        S.set("tgp_photos", all); setPhotos(all);
-        setMsg(`+${fresh.length} new`);
-      } else {
-        setMsg("Up to date");
-      }
-    } catch(e) { setMsg("Failed"); }
-    setSyncing(false);
-    setTimeout(()=>setMsg(""), 4000);
-  }, [cfg, photos]);
 
-  const toggleLike = id => {
-    const n = { ...likes, [id]: !likes[id] };
-    setLikes(n); S.set("tgp_likes", n);
-  };
-  const addCmt = async (pid, text) => {
-    if (!text.trim()) return;
-    const n = { ...cmts, [pid]: [...(cmts[pid]||[]), { text:text.trim(), ts:Date.now() }] };
-    setCmts(n); S.set("tgp_cmts", n);
-    // Also send as a reply in Telegram
-    const photo = photos.find(p => p.id === pid);
-    if (photo?.message_id) {
-      try {
-        await tgCall(HARDCODED.token, "sendMessage", {
-          chat_id: HARDCODED.chatId,
-          text: `💬 ${text.trim()}`,
-          reply_to_message_id: photo.message_id,
-        });
-      } catch {}
-    }
-  };
-  const saveProfile = c => {
-    const next = { ...c, token: HARDCODED.token, chatId: HARDCODED.chatId, username: HARDCODED.username, name: HARDCODED.name };
-    setCfg(next); S.set("tgp_cfg", next); setEditing(false);
-  };
+      if (fetched.length > 0) {
+        // Dedupe and sort newest first
+        const seen = new Set();
+        const all = fetched
+          .filter(p => { if (seen.has(p.id)) return false; seen.add(p.id); return true; })
+          .sort((a, b) => b.date - a.date);
+        S.set("tgp_photos", all);
+        setPhotos(all);
+      }
+    } catch (e) { /* silent fail — cached photos still show */ }
+    setSyncing(false);
+  }, []);
 
   const deletePhoto = id => {
     const next = photos.filter(p => p.id !== id);
@@ -404,55 +354,48 @@ function App() {
     setConfirmDel(null);
   };
 
+  const saveProfile = c => {
+    const next = { ...c, username: HARDCODED.username, name: HARDCODED.name };
+    setCfg(next); S.set("tgp_cfg", next); setEditing(false);
+  };
+
   if (!ready) return (
     <div style={{display:"flex",alignItems:"center",justifyContent:"center",height:"100vh"}}>
-      <div style={{textAlign:"center",color:"#2e2e2e"}}>
+      <div style={{textAlign:"center",color:"var(--g3)"}}>
         <I.Camera s={34}/>
-        <p style={{fontFamily:"'Barlow Condensed',sans-serif",fontSize:10,letterSpacing:3,textTransform:"uppercase",color:"#333",marginTop:10}}>Loading</p>
+        <p style={{fontFamily:"'Barlow Condensed',sans-serif",fontSize:10,letterSpacing:3,textTransform:"uppercase",color:"var(--g3)",marginTop:10}}>Loading</p>
       </div>
     </div>
   );
 
-  if (editing) return <EditProfile cfg={cfg} onSave={saveProfile} onBack={()=>setEditing(false)}/>;
-
-  const totalLikes = Object.values(likes).filter(Boolean).length;
-  const msgOk = msg.startsWith("+") || msg === "Up to date";
-
   if (showLogin) return <AdminLogin onSuccess={()=>{setIsAdmin(true);setShowLogin(false)}} onCancel={()=>setShowLogin(false)}/>;
-
-  // Secret admin: triple-click the logo
-  let logoClickCount = 0, logoClickTimer = null;
-  const handleLogoClick = () => {
-    logoClickCount++;
-    if (logoClickTimer) clearTimeout(logoClickTimer);
-    logoClickTimer = setTimeout(() => { logoClickCount = 0; }, 600);
-    if (logoClickCount >= 3) { logoClickCount = 0; setShowLogin(true); }
-  };
+  if (editing)   return <EditProfile cfg={cfg} onSave={saveProfile} onBack={()=>setEditing(false)}/>;
 
   return (
     <div style={{minHeight:"100vh",background:"var(--black)"}}>
+
+      {/* Nav */}
       <nav className="nav">
         <div className="nav-inner">
-          <span className="nav-logo" onClick={handleLogoClick} style={{cursor:"default",userSelect:"none"}}>
-            Leo's POV
-          </span>
+          <span className="nav-logo" onClick={handleLogoClick}>Leo's POV</span>
           <div className="nav-right">
-            {msg && <span className="nav-msg" style={{color:msgOk?"#666":"#555"}}>{msg}</span>}
+            {syncing && <span className="sync-indicator active"><I.Sync s={12} spin={true}/> Syncing</span>}
             {isAdmin && (
               <>
-                <button className="nav-icon" onClick={sync} disabled={syncing} title="Sync photos">
-                  <I.Sync s={16} spin={syncing}/>
+                <button className="nav-icon" onClick={doSync} disabled={syncing} title="Sync">
+                  <I.Sync s={15} spin={syncing}/>
                 </button>
-                <button className="nav-icon" onClick={()=>setEditing(true)} title="Edit profile">
-                  <I.Gear s={17}/>
+                <button className="nav-icon" onClick={()=>setEditing(true)} title="Edit Profile">
+                  <I.Gear s={16}/>
                 </button>
-                <span className="nav-admin-dot" title="Admin mode active"/>
+                <span className="nav-dot" title="Admin"/>
               </>
             )}
           </div>
         </div>
       </nav>
 
+      {/* Admin bar */}
       {isAdmin && (
         <div className="admin-bar">
           <div className="admin-bar-inner">
@@ -462,6 +405,7 @@ function App() {
         </div>
       )}
 
+      {/* Profile */}
       <div className="profile-section">
         <div className="p-avatar">
           {photos.length > 0
@@ -471,68 +415,57 @@ function App() {
         </div>
         <div className="p-body">
           <div className="p-top">
-            <span className="p-handle">{cfg.username||"photographer"}</span>
-            {isAdmin && (
-              <>
-                <button className="btn-ghost" onClick={()=>setEditing(true)}>Edit</button>
-                <button className="btn-ghost" onClick={sync} disabled={syncing}>
-                  <I.Sync s={11} spin={syncing}/>{syncing?"Syncing":"Sync"}
-                </button>
-              </>
-            )}
+            <span className="p-handle">{HARDCODED.username}</span>
           </div>
           <div className="p-stats">
-            <div className="stat"><div className="stat-n">{photos.length}</div><div className="stat-l">Posts</div></div>
-            <div className="stat"><div className="stat-n">{totalLikes}</div><div className="stat-l">Likes</div></div>
+            <div className="stat">
+              <div className="stat-n">{photos.length}</div>
+              <div className="stat-l">Posts</div>
+            </div>
           </div>
-          {cfg.name    && <p className="p-name">{cfg.name}</p>}
-          {cfg.bio     && <p className="p-bio">{cfg.bio}</p>}
-          {cfg.website && <a className="p-link" href={cfg.website} target="_blank" rel="noreferrer">{cfg.website}</a>}
+          <p className="p-name">{HARDCODED.name}</p>
+          {cfg?.bio     && <p className="p-bio">{cfg.bio}</p>}
+          {cfg?.website && <a className="p-link" href={cfg.website} target="_blank" rel="noreferrer">{cfg.website}</a>}
         </div>
       </div>
 
+      {/* Highlights strip */}
       {photos.length > 0 && (
         <div className="hl-section">
           <div className="hl-inner">
-            {photos.slice(0,20).map((p,i)=>(
-              <button key={p.id} className="hl-item" onClick={()=>setSel(p)}>
+            {photos.slice(0, 20).map((p, i) => (
+              <button key={p.id} className="hl-item" onClick={() => setSel(p)}>
                 <div className="hl-thumb"><img src={p.url} alt="" loading="lazy"/></div>
-                <span className="hl-lbl">{p.caption?.split("\n")[0]?.slice(0,8)||`#${i+1}`}</span>
+                <span className="hl-lbl">{p.caption?.split("\n")[0]?.slice(0, 8) || `#${i+1}`}</span>
               </button>
             ))}
           </div>
         </div>
       )}
 
+      {/* Tabs */}
       <div className="tabs-section">
         <div className="tabs-inner">
           <button className="tab-btn active"><I.Grid s={11}/>Posts</button>
         </div>
       </div>
 
+      {/* Grid */}
       <div className="grid-section">
         {photos.length === 0 ? (
           <div className="empty-wrap">
             <I.Camera s={38}/>
-            <h3>No Photos</h3>
-            <p>Post photos to your Telegram channel, then sync.</p>
-            <button className="btn-ghost" onClick={sync} disabled={syncing}
-              style={{padding:"8px 20px",marginTop:4}}>
-              <I.Sync s={12} spin={syncing}/>{syncing?"Syncing…":"Sync Now"}
-            </button>
+            <h3>{syncing ? "Loading…" : "No Photos"}</h3>
+            <p>{syncing ? "Fetching from Telegram…" : "Post photos to your Telegram channel — they'll appear here automatically."}</p>
           </div>
         ) : (
           <div className="photo-grid">
-            {photos.map(p=>(
-              <div key={p.id} className="photo-cell" onClick={()=>setSel(p)}>
-                <img src={p.url} alt={p.caption} loading="lazy" onError={e=>{e.target.style.opacity="0"}}/>
-                <div className="ov">
-                  <span className="ov-stat"><I.Heart on={true} s={13}/>{likes[p.id]?1:0}</span>
-                  <span className="ov-stat"><I.Msg s={13}/>{(cmts[p.id]||[]).length}</span>
-                </div>
+            {photos.map(p => (
+              <div key={p.id} className="photo-cell" onClick={() => setSel(p)}>
+                <img src={p.url} alt={p.caption} loading="lazy" onError={e => { e.target.style.opacity = "0"; }}/>
                 {isAdmin && (
-                  <button className="del-btn" onClick={e=>{e.stopPropagation();setConfirmDel(p)}} title="Delete photo">
-                    <I.Trash s={13}/>
+                  <button className="del-btn" onClick={e => { e.stopPropagation(); setConfirmDel(p); }}>
+                    <I.Trash s={12}/>
                   </button>
                 )}
               </div>
@@ -541,29 +474,26 @@ function App() {
         )}
       </div>
 
+      {/* Lightbox modal */}
       {sel && (
-        <PhotoModal
+        <Lightbox
           photo={sel} photos={photos}
-          liked={!!likes[sel.id]}
-          comments={cmts[sel.id]||[]}
-          onLike={()=>toggleLike(sel.id)}
-          onClose={()=>setSel(null)}
+          onClose={() => setSel(null)}
           onNav={setSel}
-          onComment={t=>addCmt(sel.id,t)}
-          cfg={cfg}
           isAdmin={isAdmin}
-          onDelete={p=>setConfirmDel(p)}
+          onDelete={p => setConfirmDel(p)}
         />
       )}
 
+      {/* Delete confirm */}
       {confirmDel && (
-        <div className="confirm-overlay" onClick={e=>e.target===e.currentTarget&&setConfirmDel(null)}>
+        <div className="confirm-overlay" onClick={e => e.target === e.currentTarget && setConfirmDel(null)}>
           <div className="confirm-box">
             <p className="confirm-title">Delete Photo</p>
-            <p className="confirm-sub">This removes the photo from your portfolio. It stays in your Telegram channel.</p>
+            <p className="confirm-sub">Removes this photo from the portfolio. It stays in your Telegram channel.</p>
             <div className="confirm-row">
-              <button className="confirm-cancel" onClick={()=>setConfirmDel(null)}>Cancel</button>
-              <button className="confirm-del" onClick={()=>deletePhoto(confirmDel.id)}>Delete</button>
+              <button className="confirm-cancel" onClick={() => setConfirmDel(null)}>Cancel</button>
+              <button className="confirm-del" onClick={() => deletePhoto(confirmDel.id)}>Delete</button>
             </div>
           </div>
         </div>
@@ -572,82 +502,59 @@ function App() {
   );
 }
 
-function PhotoModal({ photo, photos, liked, comments, onLike, onClose, onNav, onComment, cfg, isAdmin, onDelete }) {
-  const [text, setText] = useState("");
-  const [pop, setPop]   = useState(false);
-  const idx = photos.findIndex(p=>p.id===photo.id);
-  const date = new Date(photo.date*1000).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}).toUpperCase();
+/* ── Lightbox ─────────────────────────────────── */
+function Lightbox({ photo, photos, onClose, onNav, isAdmin, onDelete }) {
+  const idx  = photos.findIndex(p => p.id === photo.id);
+  const date = new Date(photo.date * 1000).toLocaleDateString("en-US", { month: "long", day: "numeric", year: "numeric" }).toUpperCase();
 
-  useEffect(()=>{
+  useEffect(() => {
     const fn = e => {
-      if (e.key==="Escape") onClose();
-      if (e.key==="ArrowLeft"  && idx>0)               onNav(photos[idx-1]);
-      if (e.key==="ArrowRight" && idx<photos.length-1) onNav(photos[idx+1]);
+      if (e.key === "Escape")      onClose();
+      if (e.key === "ArrowLeft"  && idx > 0)               onNav(photos[idx - 1]);
+      if (e.key === "ArrowRight" && idx < photos.length-1) onNav(photos[idx + 1]);
     };
-    window.addEventListener("keydown",fn);
-    return ()=>window.removeEventListener("keydown",fn);
-  },[idx]);
-
-  const like = () => { if (!liked){setPop(true);setTimeout(()=>setPop(false),500)} onLike(); };
-  const post = () => { onComment(text); setText(""); };
+    window.addEventListener("keydown", fn);
+    return () => window.removeEventListener("keydown", fn);
+  }, [idx]);
 
   return (
-    <div className="modal-bg" onClick={e=>e.target===e.currentTarget&&onClose()}>
+    <div className="modal-bg" onClick={e => e.target === e.currentTarget && onClose()}>
       <button className="modal-x" onClick={onClose}><I.X s={15}/></button>
-      {idx>0 && <button className="modal-arr" style={{left:12}} onClick={()=>onNav(photos[idx-1])}><I.ChevL s={15}/></button>}
-      {idx<photos.length-1 && <button className="modal-arr" style={{right:12}} onClick={()=>onNav(photos[idx+1])}><I.ChevR s={15}/></button>}
-      <div className="modal-wrap">
-        <div className="modal-photo"><img src={photo.url} alt={photo.caption}/></div>
-        <div className="modal-side">
-          <div className="modal-head">
-            <div className="modal-mini"><img src={photo.url} alt=""/></div>
-            <span className="modal-uname">{cfg.username||"photographer"}</span>
-            {isAdmin && (
-              <button className="modal-del-btn" style={{marginLeft:"auto"}}
-                onClick={()=>onDelete(photo)}>
-                <I.Trash s={12}/> Delete
-              </button>
-            )}
+
+      {isAdmin && (
+        <button className="modal-del-btn" onClick={() => onDelete(photo)}>
+          <I.Trash s={11}/> Delete
+        </button>
+      )}
+
+      {idx > 0 && (
+        <button className="modal-arr" style={{ left: 12 }} onClick={() => onNav(photos[idx - 1])}>
+          <I.ChevL s={18}/>
+        </button>
+      )}
+      {idx < photos.length - 1 && (
+        <button className="modal-arr" style={{ right: 12 }} onClick={() => onNav(photos[idx + 1])}>
+          <I.ChevR s={18}/>
+        </button>
+      )}
+
+      <div className="modal-img-wrap">
+        <img src={photo.url} alt={photo.caption}/>
+        {(photo.caption || date) && (
+          <div className="modal-caption">
+            {photo.caption && <p>{photo.caption}</p>}
+            <p className="cap-date">{date}</p>
           </div>
-          <div className="modal-body">
-            {photo.caption && (
-              <p className="modal-cap"><strong>{cfg.username||"photographer"} </strong>{photo.caption}</p>
-            )}
-            {comments.map((c,i)=>(
-              <div key={i} className="modal-cmt">
-                <p className="modal-cmt-txt"><strong>visitor </strong>{c.text}</p>
-                <p className="modal-cmt-date">{new Date(c.ts).toLocaleDateString("en-US",{month:"short",day:"numeric"}).toUpperCase()}</p>
-              </div>
-            ))}
-          </div>
-          <div className="modal-acts">
-            <div className="modal-act-row">
-              <button className="act" onClick={like} style={{color:liked?"#fff":"",animation:pop?"heartPop .45s ease":""}}>
-                <I.Heart on={liked} s={22}/>
-              </button>
-              <button className="act"><I.Msg s={22}/></button>
-              <button className="act"><I.Send s={21}/></button>
-              <button className="act" style={{marginLeft:"auto"}}><I.Save s={21}/></button>
-            </div>
-            <p className="modal-lcount">{liked?"1 Like":"Be first to like"}</p>
-            <p className="modal-mdate">{date}</p>
-          </div>
-          <div className="modal-inp-row">
-            <input className="modal-inp" value={text}
-              onChange={e=>setText(e.target.value)}
-              onKeyDown={e=>e.key==="Enter"&&post()}
-              placeholder="Add a comment"/>
-            <button className="modal-post-btn" onClick={post} disabled={!text.trim()}>Post</button>
-          </div>
-        </div>
+        )}
       </div>
     </div>
   );
 }
 
+/* ── Admin Login ──────────────────────────────── */
 function AdminLogin({ onSuccess, onCancel }) {
-  const [pw, setPw]   = useState("");
-  const [err, setErr] = useState("");
+  const [pw, setPw]     = useState("");
+  const [err, setErr]   = useState("");
   const [shake, setShake] = useState(false);
 
   const attempt = () => {
@@ -655,42 +562,32 @@ function AdminLogin({ onSuccess, onCancel }) {
       onSuccess();
     } else {
       setErr("Incorrect password");
-      setShake(true);
-      setPw("");
-      setTimeout(()=>setShake(false), 500);
+      setShake(true); setPw("");
+      setTimeout(() => setShake(false), 500);
     }
   };
 
   return (
-    <div style={{minHeight:"100vh",background:"var(--black)"}}>
+    <div style={{ minHeight: "100vh", background: "var(--black)" }}>
       <nav className="nav">
         <div className="nav-inner">
           <span className="nav-logo">Leo's POV</span>
-          <button className="nav-icon" onClick={onCancel} title="Cancel"><I.X s={16}/></button>
+          <button className="nav-icon" onClick={onCancel}><I.X s={15}/></button>
         </div>
       </nav>
       <div className="login-wrap">
-        <div className="login-box" style={shake?{animation:"shake .4s ease"}:{}}>
+        <div className="login-box" style={shake ? { animation: "shake .4s ease" } : {}}>
           <p className="login-title">Admin</p>
           <p className="login-sub">Enter password to continue</p>
-          <div>
-            <label className="f-lbl">Password</label>
-            <input
-              className="f-inp"
-              type="password"
-              value={pw}
-              onChange={e=>{setPw(e.target.value);setErr("")}}
-              onKeyDown={e=>e.key==="Enter"&&attempt()}
-              placeholder="••••••••"
-              autoFocus
-            />
-            {err && <p className="login-err">{err}</p>}
-          </div>
-          <div style={{display:"flex",gap:10,marginTop:20}}>
-            <button className="confirm-cancel" style={{flex:1,padding:11}} onClick={onCancel}>Cancel</button>
-            <button className="btn-solid" style={{flex:1,padding:11,fontSize:12,letterSpacing:2}} onClick={attempt} disabled={!pw}>
-              Enter
-            </button>
+          <label className="f-lbl">Password</label>
+          <input className="f-inp" type="password" value={pw} autoFocus
+            onChange={e => { setPw(e.target.value); setErr(""); }}
+            onKeyDown={e => e.key === "Enter" && attempt()}
+            placeholder="••••••••"/>
+          {err && <p className="login-err">{err}</p>}
+          <div style={{ display: "flex", gap: 10, marginTop: 20 }}>
+            <button className="confirm-cancel" style={{ flex: 1, padding: 11 }} onClick={onCancel}>Cancel</button>
+            <button className="btn-solid" style={{ flex: 1, padding: 11, fontSize: 12, letterSpacing: 2 }} onClick={attempt} disabled={!pw}>Enter</button>
           </div>
         </div>
       </div>
@@ -698,40 +595,28 @@ function AdminLogin({ onSuccess, onCancel }) {
   );
 }
 
+/* ── Edit Profile ─────────────────────────────── */
 function EditProfile({ cfg, onSave, onBack }) {
-  const [f, setF] = useState({
-    username: cfg?.username||"",
-    name:     cfg?.name||"",
-    bio:      cfg?.bio||"",
-    website:  cfg?.website||"",
-  });
-  const upd = k => e => setF(p=>({...p,[k]:e.target.value}));
+  const [f, setF] = useState({ bio: cfg?.bio || "", website: cfg?.website || "" });
+  const upd = k => e => setF(p => ({ ...p, [k]: e.target.value }));
   return (
-    <div style={{minHeight:"100vh",background:"var(--black)"}}>
+    <div style={{ minHeight: "100vh", background: "var(--black)" }}>
       <nav className="nav">
         <div className="nav-inner"><span className="nav-logo">Leo's POV</span></div>
       </nav>
       <div className="edit-wrap">
         <button className="back-btn" onClick={onBack}><I.ChevL s={13}/>Back</button>
         <h1 className="edit-title">Edit Profile</h1>
-        <div style={{display:"flex",flexDirection:"column",gap:16}}>
-          {[
-            {k:"username",lbl:"Username",ph:"your_username"},
-            {k:"name",    lbl:"Display Name",ph:"Your Name"},
-            {k:"website", lbl:"Website",ph:"https://"},
-          ].map(({k,lbl,ph})=>(
-            <div key={k}>
-              <label className="f-lbl">{lbl}</label>
-              <input className="f-inp" value={f[k]} onChange={upd(k)} placeholder={ph}/>
-            </div>
-          ))}
+        <div style={{ display: "flex", flexDirection: "column", gap: 16 }}>
           <div>
             <label className="f-lbl">Bio</label>
             <textarea className="f-inp" value={f.bio} onChange={upd("bio")} rows={3} placeholder="Photographer. Creator."/>
           </div>
-          <button className="btn-solid" style={{width:"100%",marginTop:8}} onClick={()=>onSave(f)}>
-            Save Profile
-          </button>
+          <div>
+            <label className="f-lbl">Website</label>
+            <input className="f-inp" value={f.website} onChange={upd("website")} placeholder="https://"/>
+          </div>
+          <button className="btn-solid" style={{ width: "100%", marginTop: 8 }} onClick={() => onSave(f)}>Save</button>
         </div>
       </div>
     </div>
