@@ -2,816 +2,642 @@
 <html lang="en">
 <head>
 <meta charset="UTF-8">
-<meta name="viewport" content="width=device-width, initial-scale=1.0">
-<title>Telegram Portfolio</title>
+<meta name="viewport" content="width=device-width, initial-scale=1.0, viewport-fit=cover">
+<title>Leo's POV</title>
 <link rel="preconnect" href="https://fonts.googleapis.com">
-<link href="https://fonts.googleapis.com/css2?family=Dancing+Script:wght@700&display=swap" rel="stylesheet">
+<link href="https://fonts.googleapis.com/css2?family=Bebas+Neue&family=Barlow:wght@300;400;500;600&family=Barlow+Condensed:wght@400;500;600&display=swap" rel="stylesheet">
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react/18.2.0/umd/react.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
 <style>
 :root{
-  --bg:#000;
-  --bg2:#121212;
-  --bg3:#1a1a1a;
-  --bg4:#262626;
-  --border:#262626;
-  --border2:#363636;
-  --text:#f5f5f5;
-  --text2:#a8a8a8;
-  --text3:#737373;
-  --accent:#0095f6;
-  --card:#1c1c1c;
+  --black:#0a0a0a;
+  --g1:#111;
+  --g2:#1c1c1c;
+  --g3:#2e2e2e;
+  --g4:#555;
+  --g5:#888;
+  --g6:#bbb;
+  --white:#f0f0f0;
+  --pure:#fff;
 }
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;background:var(--bg);overscroll-behavior:none}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--text);-webkit-text-size-adjust:100%}
+html,body{height:100%;background:var(--black);overscroll-behavior:none}
+body{font-family:'Barlow',system-ui,sans-serif;color:var(--white);-webkit-text-size-adjust:100%;letter-spacing:.01em}
 button{cursor:pointer;background:none;border:none;font-family:inherit;color:inherit;-webkit-tap-highlight-color:transparent}
 input,textarea{font-family:inherit;outline:none}
 a{text-decoration:none;color:inherit}
 img{display:block}
-code{font-family:monospace;background:var(--bg4);color:#e0e0e0;padding:1px 5px;border-radius:3px;font-size:12px}
-
-::-webkit-scrollbar{width:4px;height:4px}
-::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:#333;border-radius:2px}
+::-webkit-scrollbar{width:3px}
+::-webkit-scrollbar-thumb{background:var(--g3)}
 
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
-@keyframes slideUp{from{transform:translateY(16px);opacity:0}to{transform:translateY(0);opacity:1}}
-@keyframes heartPop{0%,100%{transform:scale(1)}30%{transform:scale(1.35)}60%{transform:scale(1.1)}}
-@keyframes shimmer{0%{background-position:-468px 0}100%{background-position:468px 0}}
-@keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
+@keyframes slideUp{from{transform:translateY(20px);opacity:0}to{transform:translateY(0);opacity:1}}
+@keyframes heartPop{0%,100%{transform:scale(1)}40%{transform:scale(1.4)}70%{transform:scale(1.1)}}
+@keyframes shake{0%,100%{transform:translateX(0)}20%{transform:translateX(-8px)}40%{transform:translateX(8px)}60%{transform:translateX(-5px)}80%{transform:translateX(5px)}}
 
-.skeleton{
-  background:linear-gradient(90deg,#1c1c1c 25%,#2a2a2a 50%,#1c1c1c 75%);
-  background-size:400% 100%;
-  animation:shimmer 1.4s ease infinite;
-}
+/* NAV */
+.nav{position:sticky;top:0;z-index:200;height:52px;background:var(--black);border-bottom:1px solid var(--g2);display:flex;align-items:center}
+.nav-inner{max-width:960px;margin:0 auto;width:100%;padding:0 16px;display:flex;align-items:center;justify-content:space-between}
+.nav-logo{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px;color:var(--pure)}
+.nav-right{display:flex;align-items:center;gap:4px}
+.nav-icon{width:38px;height:38px;display:flex;align-items:center;justify-content:center;color:var(--g5);transition:color .15s;border-radius:2px}
+.nav-icon:hover{color:var(--pure)}
+.nav-msg{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;padding:0 8px;color:var(--g5);white-space:nowrap}
 
-/* ── Nav ───────────────────────────────────────── */
-.nav{
-  position:sticky;top:0;z-index:100;
-  background:rgba(0,0,0,0.92);
-  backdrop-filter:blur(10px);
-  border-bottom:1px solid var(--border);
-  height:54px;display:flex;align-items:center;
-}
-.nav-inner{
-  max-width:935px;margin:0 auto;width:100%;
-  padding:0 20px;display:flex;align-items:center;justify-content:space-between;
-}
-.nav-logo{
-  font-family:'Dancing Script','Georgia',cursive;
-  font-size:28px;font-weight:700;letter-spacing:-0.5px;
-  background:linear-gradient(135deg,#405de6,#5851db,#833ab4,#c13584,#e1306c,#fd1d1d);
-  -webkit-background-clip:text;-webkit-text-fill-color:transparent;
-  background-clip:text;
-}
-.nav-actions{display:flex;align-items:center;gap:14px}
-.nav-btn{
-  display:flex;align-items:center;gap:5px;
-  font-size:13px;font-weight:600;color:var(--text);
-  padding:6px 10px;border-radius:8px;
-  transition:background .15s;
-}
-.nav-btn:hover{background:var(--bg4)}
+/* PROFILE */
+.profile-section{max-width:960px;margin:0 auto;padding:28px 16px 22px;display:flex;gap:32px;align-items:flex-start;border-bottom:1px solid var(--g2)}
+.p-avatar{width:86px;height:86px;border:1px solid var(--g3);overflow:hidden;background:var(--g2);display:flex;align-items:center;justify-content:center;color:var(--g4);flex-shrink:0}
+.p-avatar img{width:100%;height:100%;object-fit:cover}
+.p-body{flex:1;min-width:0}
+.p-top{display:flex;align-items:center;gap:12px;flex-wrap:wrap;margin-bottom:14px}
+.p-handle{font-family:'Barlow Condensed',sans-serif;font-size:20px;font-weight:500;letter-spacing:1px;text-transform:uppercase;color:var(--pure)}
+.btn-ghost{padding:5px 14px;border:1px solid var(--g3);font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--g6);transition:border-color .15s,color .15s;display:inline-flex;align-items:center;gap:6px}
+.btn-ghost:hover{border-color:var(--g6);color:var(--pure)}
+.btn-ghost:disabled{opacity:.3;cursor:not-allowed}
+.btn-solid{padding:11px;background:var(--pure);font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:2px;text-transform:uppercase;color:var(--black);font-weight:600;transition:background .15s}
+.btn-solid:hover{background:var(--white)}
+.p-stats{display:flex;margin-bottom:12px}
+.stat{padding-right:20px;margin-right:20px;border-right:1px solid var(--g2)}
+.stat:last-child{border-right:none}
+.stat-n{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:1px;color:var(--pure);line-height:1}
+.stat-l{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--g5);margin-top:2px}
+.p-name{font-size:14px;font-weight:500;color:var(--pure);margin-bottom:3px}
+.p-bio{font-size:13px;color:var(--g5);line-height:1.6;white-space:pre-wrap;margin-bottom:4px}
+.p-link{font-size:13px;color:var(--g6);font-weight:500}
+.tg-tag{display:inline-flex;align-items:center;gap:5px;font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--g4);border:1px solid var(--g3);padding:3px 8px;margin-top:8px}
 
-/* ── Profile ────────────────────────────────────── */
-.profile-wrap{background:var(--bg);border-bottom:1px solid var(--border)}
-.profile-inner{
-  max-width:935px;margin:0 auto;
-  padding:28px 20px 20px;
-  display:flex;gap:36px;align-items:flex-start;
-}
-.profile-avatar{
-  width:92px;height:92px;border-radius:50%;
-  overflow:hidden;flex-shrink:0;
-  border:1px solid var(--border2);
-  background:var(--bg4);
-  display:flex;align-items:center;justify-content:center;
-}
-.profile-avatar-ring{
-  width:96px;height:96px;border-radius:50%;
-  background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);
-  padding:2px;flex-shrink:0;
-}
-.profile-avatar-ring-inner{
-  width:100%;height:100%;border-radius:50%;
-  overflow:hidden;border:2px solid var(--bg);background:var(--bg4);
-}
-.profile-info{flex:1;min-width:0}
-.profile-row1{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}
-.profile-username{font-size:20px;font-weight:300;color:var(--text)}
-.profile-stats{display:flex;gap:28px;margin-bottom:10px;flex-wrap:wrap}
-.profile-stat{font-size:15px;color:var(--text)}
-.profile-stat strong{font-weight:600}
-.profile-name{font-weight:600;font-size:14px;margin-bottom:3px;color:var(--text)}
-.profile-bio{font-size:14px;line-height:1.5;white-space:pre-wrap;color:var(--text)}
-.profile-link{font-size:14px;color:#5ba3d9;font-weight:500}
-.tg-badge{
-  display:inline-flex;align-items:center;gap:5px;
-  font-size:12px;color:#5ba3d9;font-weight:500;
-  background:rgba(0,136,204,0.15);padding:3px 8px;border-radius:20px;
-}
+/* HIGHLIGHTS */
+.hl-section{border-bottom:1px solid var(--g2)}
+.hl-inner{max-width:960px;margin:0 auto;display:flex;gap:20px;overflow-x:auto;padding:16px;scrollbar-width:none;-webkit-overflow-scrolling:touch}
+.hl-inner::-webkit-scrollbar{display:none}
+.hl-item{display:flex;flex-direction:column;align-items:center;gap:7px;flex-shrink:0;background:none;border:none;cursor:pointer;padding:0}
+.hl-thumb{width:62px;height:62px;border:1px solid var(--g3);overflow:hidden;background:var(--g2)}
+.hl-thumb img{width:100%;height:100%;object-fit:cover}
+.hl-lbl{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--g5);max-width:62px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap}
 
-/* ── Buttons ────────────────────────────────────── */
-.btn-primary{
-  padding:7px 16px;
-  background:#0095f6;color:white;
-  border-radius:8px;font-size:14px;font-weight:600;
-  transition:background .2s,transform .1s;
-}
-.btn-primary:hover{background:#1aa3ff}
-.btn-primary:active{transform:scale(0.98)}
-.btn-primary:disabled{background:#0060a0;cursor:not-allowed;transform:none;color:#9ec8ea}
-.btn-outline{
-  padding:6px 14px;background:transparent;color:var(--text);
-  border:1px solid var(--border2);border-radius:8px;
-  font-size:13px;font-weight:600;
-  transition:background .15s;
-}
-.btn-outline:hover{background:var(--bg4)}
+/* TABS */
+.tabs-section{border-bottom:1px solid var(--g2)}
+.tabs-inner{max-width:960px;margin:0 auto;display:flex;padding:0 16px;gap:36px}
+.tab-btn{padding:12px 0;font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--g4);border-bottom:1px solid transparent;margin-bottom:-1px;display:flex;align-items:center;gap:6px;transition:color .15s}
+.tab-btn.active{color:var(--pure);border-bottom-color:var(--pure)}
 
-/* ── Stories ─────────────────────────────────────── */
-.stories-section{background:var(--bg);border-bottom:1px solid var(--border)}
-.stories-bar{
-  max-width:935px;margin:0 auto;
-  display:flex;gap:16px;overflow-x:auto;
-  padding:14px 20px;
-  -webkit-overflow-scrolling:touch;
-  scrollbar-width:none;
-}
-.stories-bar::-webkit-scrollbar{display:none}
-.story{
-  display:flex;flex-direction:column;align-items:center;gap:6px;
-  flex-shrink:0;background:none;border:none;padding:0;cursor:pointer;
-}
-.story-ring{
-  width:66px;height:66px;border-radius:50%;
-  background:linear-gradient(45deg,#f09433,#e6683c,#dc2743,#cc2366,#bc1888);
-  padding:2px;
-}
-.story-ring-inner{
-  width:100%;height:100%;border-radius:50%;
-  overflow:hidden;border:2.5px solid var(--bg);
-  background:var(--bg4);
-}
-.story-ring-inner img{width:100%;height:100%;object-fit:cover}
-.story-label{font-size:11px;color:var(--text2);max-width:66px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
+/* GRID */
+.grid-section{max-width:960px;margin:0 auto;padding-bottom:80px}
+.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:2px}
+.photo-cell{position:relative;aspect-ratio:1/1;overflow:hidden;cursor:pointer;background:var(--g2)}
+.photo-cell img{width:100%;height:100%;object-fit:cover;transition:transform .3s ease,filter .3s ease}
+.photo-cell:hover img{transform:scale(1.04);filter:brightness(.65)}
+.ov{position:absolute;inset:0;display:flex;align-items:center;justify-content:center;gap:24px;opacity:0;transition:opacity .2s;pointer-events:none}
+.photo-cell:hover .ov{opacity:1}
+.ov-stat{display:flex;align-items:center;gap:5px;font-family:'Barlow Condensed',sans-serif;font-size:14px;font-weight:600;letter-spacing:1px;color:var(--pure)}
 
-/* ── Tabs ────────────────────────────────────────── */
-.tabs-bar{background:var(--bg);border-bottom:1px solid var(--border);display:flex;justify-content:center;gap:40px}
-.tab-btn{
-  padding:12px 2px;font-size:12px;font-weight:600;
-  letter-spacing:1px;color:var(--text3);text-transform:uppercase;
-  border-top:1px solid transparent;margin-top:-1px;
-  display:flex;align-items:center;gap:5px;
-  transition:color .15s;
-}
-.tab-btn.active{color:var(--text);border-top-color:var(--text)}
+/* EMPTY */
+.empty-wrap{display:flex;flex-direction:column;align-items:center;padding:80px 20px;gap:16px;color:var(--g4)}
+.empty-wrap h3{font-family:'Bebas Neue',sans-serif;font-size:28px;letter-spacing:3px;color:var(--g3)}
+.empty-wrap p{font-size:13px;color:var(--g4);text-align:center;max-width:260px;line-height:1.7}
 
-/* ── Photo Grid ─────────────────────────────────── */
-.grid-wrap{max-width:935px;margin:0 auto;padding-bottom:80px}
-.photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;padding:3px}
-.photo-cell{
-  position:relative;aspect-ratio:1/1;overflow:hidden;
-  cursor:pointer;background:var(--bg3);
-}
-.photo-cell img{width:100%;height:100%;object-fit:cover;transition:transform .25s ease}
-.photo-cell:hover img{transform:scale(1.05)}
-.photo-overlay{
-  position:absolute;inset:0;background:rgba(0,0,0,0);
-  display:flex;align-items:center;justify-content:center;gap:24px;
-  transition:background .2s;pointer-events:none;
-}
-.photo-cell:hover .photo-overlay{background:rgba(0,0,0,0.45)}
-.overlay-stat{
-  color:white;font-size:14px;font-weight:700;
-  display:flex;align-items:center;gap:4px;
-  opacity:0;transition:opacity .2s;
-}
-.photo-cell:hover .overlay-stat{opacity:1}
+/* MODAL */
+.modal-bg{position:fixed;inset:0;z-index:300;background:rgba(0,0,0,.97);display:flex;align-items:center;justify-content:center;animation:fadeIn .15s ease;overflow:hidden}
+.modal-wrap{display:flex;flex-direction:row;width:min(920px,96vw);height:min(640px,90vh);background:var(--g1);border:1px solid var(--g2);animation:slideUp .2s ease;overflow:hidden}
+.modal-photo{flex:1;min-width:0;background:var(--black);display:flex;align-items:center;justify-content:center}
+.modal-photo img{width:100%;height:100%;object-fit:contain}
+.modal-side{width:300px;flex-shrink:0;display:flex;flex-direction:column;border-left:1px solid var(--g2);overflow:hidden}
+.modal-head{padding:12px 14px;border-bottom:1px solid var(--g2);display:flex;align-items:center;gap:10px;flex-shrink:0}
+.modal-mini{width:28px;height:28px;overflow:hidden;flex-shrink:0;background:var(--g3)}
+.modal-mini img{width:100%;height:100%;object-fit:cover}
+.modal-uname{font-family:'Barlow Condensed',sans-serif;font-size:13px;letter-spacing:1px;text-transform:uppercase;color:var(--white)}
+.modal-body{flex:1;overflow-y:auto;padding:14px;-webkit-overflow-scrolling:touch}
+.modal-cap{font-size:13px;color:var(--g5);line-height:1.6;margin-bottom:14px;padding-bottom:14px;border-bottom:1px solid var(--g2)}
+.modal-cap strong{color:var(--g6);font-weight:500}
+.modal-cmt{margin-bottom:12px}
+.modal-cmt-txt{font-size:13px;color:var(--g5);line-height:1.5}
+.modal-cmt-txt strong{color:var(--g6);font-weight:500}
+.modal-cmt-date{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:1px;text-transform:uppercase;color:var(--g4);margin-top:3px}
+.modal-acts{border-top:1px solid var(--g2);padding:10px 14px;flex-shrink:0}
+.modal-act-row{display:flex;gap:12px;align-items:center;margin-bottom:8px}
+.act{color:var(--g5);display:flex;align-items:center;transition:color .12s,transform .1s;padding:3px}
+.act:hover{color:var(--white);transform:scale(1.08)}
+.modal-lcount{font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:1px;text-transform:uppercase;color:var(--g5);margin-bottom:3px}
+.modal-mdate{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:1.5px;text-transform:uppercase;color:var(--g4)}
+.modal-inp-row{border-top:1px solid var(--g2);display:flex;align-items:center;gap:8px;padding:10px 14px;flex-shrink:0}
+.modal-inp{flex:1;min-width:0;font-size:13px;background:none;border:none;color:var(--white)}
+.modal-inp::placeholder{color:var(--g4)}
+.modal-post-btn{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--g5);transition:color .15s}
+.modal-post-btn:not(:disabled):hover{color:var(--pure)}
+.modal-post-btn:disabled{opacity:.3;cursor:default}
+.modal-x{position:fixed;top:12px;right:12px;z-index:301;width:36px;height:36px;background:var(--g2);display:flex;align-items:center;justify-content:center;color:var(--g5);transition:background .15s,color .15s}
+.modal-x:hover{background:var(--g3);color:var(--pure)}
+.modal-arr{position:fixed;z-index:301;top:50%;transform:translateY(-50%);width:38px;height:38px;background:var(--g2);display:flex;align-items:center;justify-content:center;color:var(--g5);border:1px solid var(--g3);transition:background .15s,color .15s}
+.modal-arr:hover{background:var(--g3);color:var(--pure)}
 
-/* ── Empty State ────────────────────────────────── */
-.empty-state{
-  display:flex;flex-direction:column;align-items:center;
-  justify-content:center;padding:60px 20px;gap:16px;
-}
-.empty-icon{
-  width:88px;height:88px;border-radius:50%;
-  border:2px solid var(--border2);
-  display:flex;align-items:center;justify-content:center;
-  color:var(--text3);
-}
+/* EDIT */
+.edit-wrap{max-width:440px;margin:0 auto;padding:40px 16px 60px;animation:fadeIn .2s ease}
+.edit-title{font-family:'Bebas Neue',sans-serif;font-size:32px;letter-spacing:4px;color:var(--pure);margin-bottom:28px}
+.back-btn{display:inline-flex;align-items:center;gap:6px;font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:2px;text-transform:uppercase;color:var(--g5);margin-bottom:24px;transition:color .15s}
+.back-btn:hover{color:var(--white)}
+.f-lbl{display:block;font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--g5);margin-bottom:6px}
+.f-inp{display:block;width:100%;padding:10px 12px;background:var(--g1);border:1px solid var(--g3);font-size:14px;color:var(--white);transition:border-color .15s;-webkit-appearance:none}
+.f-inp:focus{border-color:var(--g5)}
+.f-inp::placeholder{color:var(--g4)}
+textarea.f-inp{resize:vertical;font-size:13px}
 
-/* ── Modal ───────────────────────────────────────── */
-.modal-overlay{
-  position:fixed;inset:0;z-index:1000;
-  background:rgba(0,0,0,0.96);
-  display:flex;align-items:center;justify-content:center;
-  animation:fadeIn .15s ease;
-  overflow:hidden;
-}
-.modal-box{
-  background:var(--card);
-  display:flex;flex-direction:row;
-  width:min(940px,96vw);height:min(680px,90vh);
-  border-radius:6px;overflow:hidden;
-  animation:slideUp .2s ease;
-  border:1px solid var(--border);
-}
-.modal-img-panel{
-  flex:1;background:#000;
-  display:flex;align-items:center;justify-content:center;
-  min-width:0;overflow:hidden;
-}
-.modal-img-panel img{width:100%;height:100%;object-fit:contain}
-.modal-sidebar{
-  width:320px;flex-shrink:0;
-  display:flex;flex-direction:column;
-  border-left:1px solid var(--border);
-  background:var(--card);
-  overflow:hidden;
-}
-.modal-header{
-  padding:12px 14px;border-bottom:1px solid var(--border);
-  display:flex;align-items:center;gap:10px;flex-shrink:0;
-}
-.modal-micro-avatar{
-  width:32px;height:32px;border-radius:50%;overflow:hidden;flex-shrink:0;
-}
-.modal-scroll{flex:1;overflow-y:auto;overflow-x:hidden;padding:14px;-webkit-overflow-scrolling:touch}
-.modal-actions{border-top:1px solid var(--border);padding:8px 14px;flex-shrink:0}
-.modal-action-row{display:flex;gap:14px;align-items:center;margin-bottom:6px}
-.action-btn{color:var(--text);display:flex;align-items:center;transition:transform .1s;padding:4px}
-.action-btn:hover{transform:scale(1.1)}
-.comment-bar{
-  border-top:1px solid var(--border);flex-shrink:0;
-  display:flex;align-items:center;
-  padding:9px 14px;gap:8px;
-}
-.comment-input{flex:1;font-size:14px;border:none;background:none;color:var(--text);min-width:0}
-.comment-input::placeholder{color:var(--text3)}
-.comment-post{color:#0095f6;font-weight:600;font-size:14px;transition:opacity .15s;white-space:nowrap}
-.comment-post:disabled{opacity:0.35;cursor:default}
-.modal-nav{
-  position:fixed;
-  width:40px;height:40px;border-radius:50%;
-  background:rgba(30,30,30,0.85);
-  border:1px solid rgba(255,255,255,0.15);
-  cursor:pointer;
-  display:flex;align-items:center;justify-content:center;
-  color:white;z-index:1001;
-  transition:background .2s;
-}
-.modal-nav:hover{background:rgba(60,60,60,0.9)}
-.modal-close{
-  position:fixed;top:12px;right:12px;
-  color:white;z-index:1001;
-  background:rgba(30,30,30,0.7);
-  border:none;cursor:pointer;border-radius:50%;
-  width:36px;height:36px;
-  display:flex;align-items:center;justify-content:center;
-  transition:background .15s;
-}
-.modal-close:hover{background:rgba(60,60,60,0.9)}
+/* ADMIN */
+.admin-bar{background:var(--g1);border-bottom:1px solid var(--g3)}
+.admin-bar-inner{max-width:960px;margin:0 auto;padding:8px 16px;display:flex;align-items:center;justify-content:space-between}
+.admin-badge{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:2.5px;text-transform:uppercase;background:var(--pure);color:var(--black);padding:3px 10px;display:inline-flex;align-items:center;gap:6px;font-weight:600}
+.admin-exit{font-family:'Barlow Condensed',sans-serif;font-size:10px;letter-spacing:2px;text-transform:uppercase;color:var(--g5);border:1px solid var(--g3);padding:3px 10px;transition:color .15s,border-color .15s}
+.admin-exit:hover{color:var(--pure);border-color:var(--g5)}
+.del-btn{position:absolute;top:6px;right:6px;z-index:10;width:28px;height:28px;background:rgba(0,0,0,.78);border:1px solid rgba(255,255,255,.12);display:flex;align-items:center;justify-content:center;color:var(--g6);transition:background .15s,color .15s;opacity:0}
+.photo-cell:hover .del-btn,.photo-cell.admin-active .del-btn{opacity:1}
+.del-btn:hover{background:rgba(185,28,28,.9);color:#fff;border-color:transparent}
+.modal-del-btn{display:flex;align-items:center;gap:6px;font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:var(--g4);border:1px solid var(--g3);padding:5px 12px;transition:color .15s,border-color .15s,background .15s}
+.modal-del-btn:hover{color:#fff;border-color:#b91c1c;background:rgba(185,28,28,.2)}
+.confirm-overlay{position:fixed;inset:0;z-index:500;background:rgba(0,0,0,.88);display:flex;align-items:center;justify-content:center;animation:fadeIn .1s ease}
+.confirm-box{background:var(--g1);border:1px solid var(--g3);padding:28px 24px;width:min(320px,90vw);animation:slideUp .15s ease}
+.confirm-title{font-family:'Bebas Neue',sans-serif;font-size:22px;letter-spacing:3px;color:var(--pure);margin-bottom:8px}
+.confirm-sub{font-size:13px;color:var(--g5);line-height:1.6;margin-bottom:22px}
+.confirm-row{display:flex;gap:10px}
+.confirm-cancel{flex:1;padding:10px;border:1px solid var(--g3);font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:var(--g5);transition:color .15s,border-color .15s}
+.confirm-cancel:hover{color:var(--pure);border-color:var(--g5)}
+.confirm-del{flex:1;padding:10px;background:#b91c1c;font-family:'Barlow Condensed',sans-serif;font-size:12px;letter-spacing:1.5px;text-transform:uppercase;color:#fff;font-weight:600;transition:background .15s}
+.confirm-del:hover{background:#dc2626}
+.login-wrap{display:flex;align-items:center;justify-content:center;min-height:100vh;padding:20px}
+.login-box{width:min(340px,100%);animation:slideUp .2s ease}
+.login-title{font-family:'Bebas Neue',sans-serif;font-size:40px;letter-spacing:6px;color:var(--pure);margin-bottom:4px}
+.login-sub{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:2.5px;text-transform:uppercase;color:var(--g4);margin-bottom:32px}
+.login-err{font-family:'Barlow Condensed',sans-serif;font-size:11px;letter-spacing:1.5px;text-transform:uppercase;color:#b91c1c;margin-top:8px}
+.nav-admin-dot{width:6px;height:6px;background:var(--pure);border-radius:50%;margin-left:2px}
 
-/* ── Setup ───────────────────────────────────────── */
-.setup-wrap{
-  max-width:480px;margin:0 auto;
-  padding:40px 16px 60px;
-  animation:fadeIn .3s;
-  overflow-x:hidden;
-}
-.setup-step-card{
-  background:var(--card);border:1px solid var(--border2);
-  border-radius:12px;padding:18px;margin-bottom:16px;
-}
-.setup-step-row{display:flex;gap:12px;margin-bottom:12px}
-.setup-step-row:last-child{margin-bottom:0}
-.setup-step-num{
-  width:26px;height:26px;border-radius:50%;
-  background:#0095f6;color:white;
-  display:flex;align-items:center;justify-content:center;
-  font-weight:700;font-size:11px;flex-shrink:0;margin-top:1px;
-}
-.field-label{display:block;font-size:13px;font-weight:600;margin-bottom:5px;color:var(--text)}
-.field-input{
-  display:block;width:100%;
-  padding:10px 12px;
-  border:1px solid var(--border2);border-radius:8px;
-  font-size:16px;background:var(--bg3);color:var(--text);
-  transition:border-color .2s,background .2s;
-  -webkit-appearance:none;
-}
-.field-input:focus{border-color:#555;background:var(--bg4)}
-.field-input::placeholder{color:var(--text3)}
-textarea.field-input{resize:vertical;font-size:14px}
-.sync-msg-ok{color:#2ecc71;font-size:12px;margin-top:4px}
-.sync-msg-err{color:#ed4956;font-size:12px;margin-top:4px}
-
-/* ── Comment items ─────────────────────────────── */
-.comment-item{display:flex;gap:10px;margin-bottom:14px}
-.comment-ghost-avatar{
-  width:32px;height:32px;border-radius:50%;
-  background:var(--bg4);display:flex;align-items:center;
-  justify-content:center;font-size:15px;flex-shrink:0;
-}
-
-/* ── Mobile: bottom-sheet modal + compact profile ── */
+/* RESPONSIVE */
 @media(max-width:680px){
-  /* Profile: compact two-row layout */
-  .profile-inner{gap:14px;padding:16px 14px 14px;align-items:center}
-  .profile-avatar-ring{width:78px;height:78px}
-  .profile-avatar{width:78px;height:78px}
-  .profile-row1{gap:8px;margin-bottom:10px;flex-wrap:nowrap}
-  .profile-username{font-size:16px}
-  .btn-outline{padding:5px 10px;font-size:12px}
-  .profile-stats{gap:16px;margin-bottom:8px}
-  .profile-stat{font-size:13px}
-  .tg-badge{font-size:11px;padding:2px 6px}
+  .profile-section{padding:16px 12px;gap:14px}
+  .p-avatar{width:72px;height:72px}
+  .p-handle{font-size:17px}
+  .p-top{gap:8px}
+  .stat{padding-right:14px;margin-right:14px}
+  .stat-n{font-size:18px}
+  .nav-msg{display:none}
 
-  /* Nav: hide sync text, icon only */
-  .nav-sync-text{display:none}
-  .nav{height:48px}
+  .modal-bg{align-items:flex-end}
+  .modal-wrap{flex-direction:column;width:100vw;height:100dvh;border:none;border-radius:0}
+  .modal-photo{flex:0 0 auto;height:54vw;min-height:180px}
+  .modal-side{width:100%;border-left:none;border-top:1px solid var(--g2);flex:1;min-height:0}
+  .modal-arr{display:none}
+  .modal-x{top:8px;right:8px;width:32px;height:32px}
 
-  /* Modal: full-screen bottom-sheet  */
-  .modal-overlay{align-items:flex-end}
-  .modal-box{
-    flex-direction:column;
-    width:100vw;height:100dvh;
-    border-radius:0;border:none;
-    max-height:100dvh;
-  }
-  .modal-img-panel{
-    flex:0 0 auto;
-    height:52vw;
-    min-height:200px;
-    max-height:55vw;
-  }
-  .modal-sidebar{
-    width:100%;border-left:none;
-    border-top:1px solid var(--border);
-    flex:1;min-height:0;
-  }
-  .modal-nav{display:none}
-  .modal-close{top:8px;right:8px;width:32px;height:32px}
-
-  /* Grid */
-  .photo-grid{gap:2px;padding:0}
-  .grid-wrap{padding-bottom:60px}
+  .photo-grid{gap:1px}
+  .hl-inner{padding:12px}
+  .hl-thumb{width:54px;height:54px}
 }
-
-@media(max-width:400px){
-  .profile-avatar-ring{width:68px;height:68px}
-  .profile-avatar{width:68px;height:68px}
-  .profile-inner{padding:12px 12px 12px}
-  .btn-outline{display:none}
+@media(max-width:380px){
+  .p-avatar{width:62px;height:62px}
+  .btn-ghost{font-size:11px;padding:4px 10px}
 }
 </style>
 </head>
 <body>
 <div id="root"></div>
-
 <script type="text/babel">
-const { useState, useEffect, useRef, useCallback } = React;
+const { useState, useEffect, useCallback } = React;
 
-/* ─── Telegram API ──────────────────────────────────────────── */
+const HARDCODED = {
+  token:    "8662339296:AAEMzUBkgN9nuDLmDgxE93l5IarlGiB0Ikc",
+  chatId:   "-1003831838516",
+  username: "leonjcb09",
+  name:     "leojcb",
+  adminPw:  "admin123",
+};
+
+const S = {
+  get: k => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch { return null; } },
+  set: (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
+};
+
 async function tgCall(token, method, params = {}) {
   const url = new URL(`https://api.telegram.org/bot${token}/${method}`);
   for (const [k, v] of Object.entries(params))
     url.searchParams.set(k, typeof v === "object" ? JSON.stringify(v) : String(v));
   const r = await fetch(url.toString());
   const d = await r.json();
-  if (!d.ok) throw new Error(d.description || "Telegram API error");
+  if (!d.ok) throw new Error(d.description || "Telegram error");
   return d.result;
 }
 
-/* ─── Hardcoded Config ──────────────────────────────────────── */
-const HARDCODED = {
-  token:  "8662339296:AAEMzUBkgN9nuDLmDgxE93l5IarlGiB0Ikc",
-  chatId: "-1003831838516",
-};
-
-/* ─── Local Storage ─────────────────────────────────────────── */
-const S = {
-  get: k => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch { return null; } },
-  set: (k, v) => { try { localStorage.setItem(k, JSON.stringify(v)); } catch {} },
-};
-
-/* ─── Icons ─────────────────────────────────────────────────── */
-const Ico = {
-  Heart: ({ f, s = 22 }) => (
+const I = {
+  Heart: ({ on, s=22 }) => (
     <svg width={s} height={s} viewBox="0 0 24 24"
-      fill={f ? "#ed4956" : "none"} stroke={f ? "#ed4956" : "currentColor"}
-      strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      fill={on?"#fff":"none"} stroke="currentColor" strokeWidth="1.8"
+      strokeLinecap="round" strokeLinejoin="round">
       <path d="M20.84 4.61a5.5 5.5 0 0 0-7.78 0L12 5.67l-1.06-1.06a5.5 5.5 0 0 0-7.78 7.78l1.06 1.06L12 21.23l7.78-7.78 1.06-1.06a5.5 5.5 0 0 0 0-7.78z"/>
     </svg>
   ),
-  Comment: ({ s = 22 }) => (
-    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  Msg: ({ s=22 }) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <path d="M21 15a2 2 0 0 1-2 2H7l-4 4V5a2 2 0 0 1 2-2h14a2 2 0 0 1 2 2z"/>
     </svg>
   ),
-  Share: ({ s = 22 }) => (
-    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  Send: ({ s=22 }) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <line x1="22" y1="2" x2="11" y2="13"/><polygon points="22 2 15 22 11 13 2 9 22 2"/>
     </svg>
   ),
-  Bookmark: ({ s = 22 }) => (
-    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  Save: ({ s=22 }) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <path d="M19 21l-7-5-7 5V5a2 2 0 0 1 2-2h10a2 2 0 0 1 2 2z"/>
     </svg>
   ),
-  Gear: ({ s = 20 }) => (
-    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+  Grid: ({ s=13 }) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="currentColor">
+      <rect x="3" y="3" width="7" height="7"/><rect x="14" y="3" width="7" height="7"/>
+      <rect x="3" y="14" width="7" height="7"/><rect x="14" y="14" width="7" height="7"/>
+    </svg>
+  ),
+  Gear: ({ s=18 }) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
       <circle cx="12" cy="12" r="3"/>
       <path d="M19.4 15a1.65 1.65 0 0 0 .33 1.82l.06.06a2 2 0 0 1-2.83 2.83l-.06-.06a1.65 1.65 0 0 0-1.82-.33 1.65 1.65 0 0 0-1 1.51V21a2 2 0 0 1-4 0v-.09A1.65 1.65 0 0 0 9 19.4a1.65 1.65 0 0 0-1.82.33l-.06.06a2 2 0 0 1-2.83-2.83l.06-.06A1.65 1.65 0 0 0 4.68 15a1.65 1.65 0 0 0-1.51-1H3a2 2 0 0 1 0-4h.09A1.65 1.65 0 0 0 4.6 9a1.65 1.65 0 0 0-.33-1.82l-.06-.06a2 2 0 0 1 2.83-2.83l.06.06A1.65 1.65 0 0 0 9 4.68a1.65 1.65 0 0 0 1-1.51V3a2 2 0 0 1 4 0v.09a1.65 1.65 0 0 0 1 1.51 1.65 1.65 0 0 0 1.82-.33l.06-.06a2 2 0 0 1 2.83 2.83l-.06.06A1.65 1.65 0 0 0 19.4 9a1.65 1.65 0 0 0 1.51 1H21a2 2 0 0 1 0 4h-.09a1.65 1.65 0 0 0-1.51 1z"/>
     </svg>
   ),
-  Grid: ({ s = 14 }) => (
-    <svg width={s} height={s} viewBox="0 0 24 24" fill="currentColor">
-      <rect x="3" y="3" width="7" height="7" rx="1"/><rect x="14" y="3" width="7" height="7" rx="1"/>
-      <rect x="3" y="14" width="7" height="7" rx="1"/><rect x="14" y="14" width="7" height="7" rx="1"/>
-    </svg>
-  ),
-  Close: ({ s = 26 }) => (
-    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
-    </svg>
-  ),
-  ChevL: ({ s = 26 }) => (
-    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-      <polyline points="15 18 9 12 15 6"/>
-    </svg>
-  ),
-  ChevR: ({ s = 26 }) => (
-    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2.5">
-      <polyline points="9 18 15 12 9 6"/>
-    </svg>
-  ),
-  Sync: ({ s = 16, spin }) => (
+  Sync: ({ s=16, spin }) => (
     <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor"
-      strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"
-      style={spin ? {animation:"spin .8s linear infinite",display:"block"} : {display:"block"}}>
+      strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round"
+      style={spin?{animation:"spin .8s linear infinite",display:"block"}:{display:"block"}}>
       <polyline points="1 4 1 10 7 10"/><polyline points="23 20 23 14 17 14"/>
       <path d="M20.49 9A9 9 0 0 0 5.64 5.64L1 10m22 4l-4.64 4.36A9 9 0 0 1 3.51 15"/>
     </svg>
   ),
-  Tg: ({ s = 16 }) => (
-    <svg width={s} height={s} viewBox="0 0 24 24" fill="#0088cc">
-      <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.17 13.835l-2.965-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.651.75z"/>
+  X: ({ s=16 }) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2">
+      <line x1="18" y1="6" x2="6" y2="18"/><line x1="6" y1="6" x2="18" y2="18"/>
     </svg>
   ),
-  Camera: ({ s = 38 }) => (
-    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.5" strokeLinecap="round" strokeLinejoin="round">
+  ChevL: ({ s=16 }) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="15 18 9 12 15 6"/></svg>
+  ),
+  ChevR: ({ s=16 }) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2"><polyline points="9 18 15 12 9 6"/></svg>
+  ),
+  Camera: ({ s=30 }) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.4" strokeLinecap="round" strokeLinejoin="round">
       <path d="M23 19a2 2 0 0 1-2 2H3a2 2 0 0 1-2-2V8a2 2 0 0 1 2-2h4l2-3h6l2 3h4a2 2 0 0 1 2 2z"/>
       <circle cx="12" cy="13" r="4"/>
     </svg>
   ),
+  Tg: ({ s=11 }) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="currentColor">
+      <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.17 13.835l-2.965-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.651.75z"/>
+    </svg>
+  ),
+  Trash: ({ s=14 }) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round">
+      <polyline points="3 6 5 6 21 6"/><path d="M19 6l-1 14a2 2 0 0 1-2 2H8a2 2 0 0 1-2-2L5 6"/><path d="M10 11v6"/><path d="M14 11v6"/><path d="M9 6V4a1 1 0 0 1 1-1h4a1 1 0 0 1 1 1v2"/>
+    </svg>
+  ),
+  Lock: ({ s=16 }) => (
+    <svg width={s} height={s} viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="1.8" strokeLinecap="round" strokeLinejoin="round">
+      <rect x="3" y="11" width="18" height="11" rx="2" ry="2"/><path d="M7 11V7a5 5 0 0 1 10 0v4"/>
+    </svg>
+  ),
 };
 
-/* ─── App ────────────────────────────────────────────────────── */
 function App() {
-  const [cfg, setCfg]           = useState(null);
-  const [photos, setPhotos]     = useState([]);
-  const [likes, setLikes]       = useState({});
-  const [comments, setComments] = useState({});
-  const [sel, setSel]           = useState(null);
-  const [setup, setSetup]       = useState(false);
-  const [syncing, setSyncing]   = useState(false);
-  const [syncMsg, setSyncMsg]   = useState("");
-  const [ready, setReady]       = useState(false);
+  const [cfg, setCfg]         = useState(null);
+  const [photos, setPhotos]   = useState([]);
+  const [likes, setLikes]     = useState({});
+  const [cmts, setCmts]       = useState({});
+  const [sel, setSel]         = useState(null);
+  const [editing, setEditing] = useState(false);
+  const [syncing, setSyncing] = useState(false);
+  const [msg, setMsg]         = useState("");
+  const [ready, setReady]     = useState(false);
+  const [isAdmin, setIsAdmin] = useState(false);
+  const [showLogin, setShowLogin] = useState(false);
+  const [confirmDel, setConfirmDel] = useState(null); // photo to delete
 
   useEffect(() => {
     const saved = S.get("tgp_cfg") || {};
-    const merged = { ...saved, token: HARDCODED.token, chatId: HARDCODED.chatId };
-    setCfg(merged);
-    S.set("tgp_cfg", merged);
+    const merged = {
+      ...saved,
+      token:    HARDCODED.token,
+      chatId:   HARDCODED.chatId,
+      username: HARDCODED.username,
+      name:     HARDCODED.name,
+    };
+    setCfg(merged); S.set("tgp_cfg", merged);
     setPhotos(S.get("tgp_photos") || []);
     setLikes(S.get("tgp_likes") || {});
-    setComments(S.get("tgp_comments") || {});
+    setCmts(S.get("tgp_cmts") || {});
     setReady(true);
   }, []);
 
   const sync = useCallback(async () => {
     if (!cfg?.token) return;
-    setSyncing(true);
-    setSyncMsg("Connecting to Telegram…");
+    setSyncing(true); setMsg("Syncing…");
     try {
       const lastId = S.get("tgp_lastId") || 0;
-      setSyncMsg("Fetching channel posts…");
       const updates = await tgCall(cfg.token, "getUpdates", {
         offset: lastId + 1, limit: 100,
-        allowed_updates: ["channel_post", "message"],
+        allowed_updates: ["channel_post","message"],
       });
       let maxId = lastId;
       const fresh = [];
       for (const u of updates) {
         maxId = Math.max(maxId, u.update_id);
-        const msg = u.channel_post || u.message;
-        if (!msg?.photo) continue;
-        const ph = msg.photo[msg.photo.length - 1];
-        setSyncMsg(`Processing photo ${fresh.length + 1}…`);
+        const m = u.channel_post || u.message;
+        if (!m?.photo) continue;
+        const ph = m.photo[m.photo.length-1];
         try {
           const file = await tgCall(cfg.token, "getFile", { file_id: ph.file_id });
           fresh.push({
             id: ph.file_unique_id,
-            file_id: ph.file_id,
+            message_id: m.message_id,
             url: `https://api.telegram.org/file/bot${cfg.token}/${file.file_path}`,
-            caption: msg.caption || "",
-            date: msg.date,
-            width: ph.width,
-            height: ph.height,
+            caption: m.caption||"", date: m.date,
+            width: ph.width, height: ph.height,
           });
         } catch {}
       }
       if (updates.length > 0) S.set("tgp_lastId", maxId);
       if (fresh.length > 0) {
-        const all = [...fresh, ...photos].sort((a,b) => b.date - a.date);
-        S.set("tgp_photos", all);
-        setPhotos(all);
-        setSyncMsg(`✓ ${fresh.length} new photo${fresh.length > 1 ? "s" : ""} added!`);
+        const all = [...fresh, ...photos].sort((a,b)=>b.date-a.date);
+        S.set("tgp_photos", all); setPhotos(all);
+        setMsg(`+${fresh.length} new`);
       } else {
-        setSyncMsg(updates.length === 0 ? "✓ Already up to date" : "✓ No new photos found");
+        setMsg("Up to date");
       }
-    } catch (e) { setSyncMsg(`✗ ${e.message}`); }
+    } catch(e) { setMsg("Failed"); }
     setSyncing(false);
-    setTimeout(() => setSyncMsg(""), 4500);
+    setTimeout(()=>setMsg(""), 4000);
   }, [cfg, photos]);
 
   const toggleLike = id => {
-    const next = { ...likes, [id]: !likes[id] };
-    setLikes(next); S.set("tgp_likes", next);
+    const n = { ...likes, [id]: !likes[id] };
+    setLikes(n); S.set("tgp_likes", n);
   };
-  const addComment = (pid, text) => {
+  const addCmt = async (pid, text) => {
     if (!text.trim()) return;
-    const next = { ...comments, [pid]: [...(comments[pid] || []), { text: text.trim(), ts: Date.now() }] };
-    setComments(next); S.set("tgp_comments", next);
+    const n = { ...cmts, [pid]: [...(cmts[pid]||[]), { text:text.trim(), ts:Date.now() }] };
+    setCmts(n); S.set("tgp_cmts", n);
+    // Also send as a reply in Telegram
+    const photo = photos.find(p => p.id === pid);
+    if (photo?.message_id) {
+      try {
+        await tgCall(HARDCODED.token, "sendMessage", {
+          chat_id: HARDCODED.chatId,
+          text: `💬 ${text.trim()}`,
+          reply_to_message_id: photo.message_id,
+        });
+      } catch {}
+    }
   };
-  const saveConfig = c => {
-    const next = { ...c, token: HARDCODED.token, chatId: HARDCODED.chatId };
-    setCfg(next); S.set("tgp_cfg", next); setSetup(false);
+  const saveProfile = c => {
+    const next = { ...c, token: HARDCODED.token, chatId: HARDCODED.chatId, username: HARDCODED.username, name: HARDCODED.name };
+    setCfg(next); S.set("tgp_cfg", next); setEditing(false);
   };
 
-  const msgColor = syncMsg.startsWith("✓") ? "#2ecc71" : syncMsg.startsWith("✗") ? "#ed4956" : "var(--text2)";
+  const deletePhoto = id => {
+    const next = photos.filter(p => p.id !== id);
+    setPhotos(next); S.set("tgp_photos", next);
+    if (sel?.id === id) setSel(null);
+    setConfirmDel(null);
+  };
 
   if (!ready) return (
-    <div style={{display:"flex",alignItems:"center",justifyContent:"center",height:"100vh",background:"#000"}}>
-      <div style={{textAlign:"center",color:"#737373"}}><Ico.Camera s={42}/><p style={{marginTop:12,fontSize:14}}>Loading…</p></div>
+    <div style={{display:"flex",alignItems:"center",justifyContent:"center",height:"100vh"}}>
+      <div style={{textAlign:"center",color:"#2e2e2e"}}>
+        <I.Camera s={34}/>
+        <p style={{fontFamily:"'Barlow Condensed',sans-serif",fontSize:10,letterSpacing:3,textTransform:"uppercase",color:"#333",marginTop:10}}>Loading</p>
+      </div>
     </div>
   );
 
-  const totalLikes = Object.values(likes).filter(Boolean).length;
+  if (editing) return <EditProfile cfg={cfg} onSave={saveProfile} onBack={()=>setEditing(false)}/>;
 
-  if (setup) return <SetupScreen existing={cfg} onSave={saveConfig} onCancel={()=>setSetup(false)}/>;
+  const totalLikes = Object.values(likes).filter(Boolean).length;
+  const msgOk = msg.startsWith("+") || msg === "Up to date";
+
+  if (showLogin) return <AdminLogin onSuccess={()=>{setIsAdmin(true);setShowLogin(false)}} onCancel={()=>setShowLogin(false)}/>;
+
+  // Secret admin: triple-click the logo
+  let logoClickCount = 0, logoClickTimer = null;
+  const handleLogoClick = () => {
+    logoClickCount++;
+    if (logoClickTimer) clearTimeout(logoClickTimer);
+    logoClickTimer = setTimeout(() => { logoClickCount = 0; }, 600);
+    if (logoClickCount >= 3) { logoClickCount = 0; setShowLogin(true); }
+  };
 
   return (
-    <div style={{minHeight:"100vh",background:"var(--bg)"}}>
-
-      {/* Nav */}
+    <div style={{minHeight:"100vh",background:"var(--black)"}}>
       <nav className="nav">
         <div className="nav-inner">
-          <span className="nav-logo">Leo's</span>
-          <div className="nav-actions">
-            <button className="nav-btn" onClick={sync} disabled={syncing}>
-              <Ico.Sync s={15} spin={syncing}/>
-              <span className="nav-sync-text" style={{color:msgColor}}>{syncMsg || "Sync"}</span>
-            </button>
-            <button className="nav-btn" onClick={()=>setSetup(true)} title="Settings">
-              <Ico.Gear s={20}/>
-            </button>
+          <span className="nav-logo" onClick={handleLogoClick} style={{cursor:"default",userSelect:"none"}}>
+            Leo's POV
+          </span>
+          <div className="nav-right">
+            {msg && <span className="nav-msg" style={{color:msgOk?"#666":"#555"}}>{msg}</span>}
+            {isAdmin && (
+              <>
+                <button className="nav-icon" onClick={sync} disabled={syncing} title="Sync photos">
+                  <I.Sync s={16} spin={syncing}/>
+                </button>
+                <button className="nav-icon" onClick={()=>setEditing(true)} title="Edit profile">
+                  <I.Gear s={17}/>
+                </button>
+                <span className="nav-admin-dot" title="Admin mode active"/>
+              </>
+            )}
           </div>
         </div>
       </nav>
 
-      {/* Profile */}
-      <div className="profile-wrap">
-        <div className="profile-inner">
-          {photos.length > 0 ? (
-            <div className="profile-avatar-ring">
-              <div className="profile-avatar-ring-inner">
-                <img src={photos[0].url} alt="avatar" style={{width:"100%",height:"100%",objectFit:"cover"}}/>
-              </div>
-            </div>
-          ) : (
-            <div className="profile-avatar">
-              <Ico.Camera s={36}/>
-            </div>
-          )}
-          <div className="profile-info">
-            <div className="profile-row1">
-              <span className="profile-username">{cfg.username || "photographer"}</span>
-              <button className="btn-outline" onClick={()=>setSetup(true)}>Edit</button>
-              <button className="btn-outline" onClick={sync} disabled={syncing}
-                style={{display:"flex",alignItems:"center",gap:5}}>
-                <Ico.Sync s={12} spin={syncing}/> {syncing ? "Syncing…" : "Sync"}
-              </button>
-            </div>
-            <div className="profile-stats">
-              <span className="profile-stat"><strong>{photos.length}</strong> posts</span>
-              <span className="profile-stat"><strong>{totalLikes}</strong> likes</span>
-              <span className="tg-badge"><Ico.Tg s={14}/> Telegram storage</span>
-            </div>
-            {cfg.name && <p className="profile-name">{cfg.name}</p>}
-            {cfg.bio && <p className="profile-bio">{cfg.bio}</p>}
-            {cfg.website && <a className="profile-link" href={cfg.website} target="_blank" rel="noreferrer">{cfg.website}</a>}
+      {isAdmin && (
+        <div className="admin-bar">
+          <div className="admin-bar-inner">
+            <span className="admin-badge">&#9632; Admin Mode</span>
+            <button className="admin-exit" onClick={()=>setIsAdmin(false)}>Exit Admin</button>
           </div>
+        </div>
+      )}
+
+      <div className="profile-section">
+        <div className="p-avatar">
+          {photos.length > 0
+            ? <img src={photos[0].url} alt="avatar"/>
+            : <I.Camera s={28}/>
+          }
+        </div>
+        <div className="p-body">
+          <div className="p-top">
+            <span className="p-handle">{cfg.username||"photographer"}</span>
+            {isAdmin && (
+              <>
+                <button className="btn-ghost" onClick={()=>setEditing(true)}>Edit</button>
+                <button className="btn-ghost" onClick={sync} disabled={syncing}>
+                  <I.Sync s={11} spin={syncing}/>{syncing?"Syncing":"Sync"}
+                </button>
+              </>
+            )}
+          </div>
+          <div className="p-stats">
+            <div className="stat"><div className="stat-n">{photos.length}</div><div className="stat-l">Posts</div></div>
+            <div className="stat"><div className="stat-n">{totalLikes}</div><div className="stat-l">Likes</div></div>
+          </div>
+          {cfg.name    && <p className="p-name">{cfg.name}</p>}
+          {cfg.bio     && <p className="p-bio">{cfg.bio}</p>}
+          {cfg.website && <a className="p-link" href={cfg.website} target="_blank" rel="noreferrer">{cfg.website}</a>}
         </div>
       </div>
 
-      {/* Stories */}
       {photos.length > 0 && (
-        <div className="stories-section">
-          <div className="stories-bar">
-            {photos.slice(0,20).map((p,i) => (
-              <button key={p.id} className="story" onClick={()=>setSel(p)}>
-                <div className="story-ring">
-                  <div className="story-ring-inner">
-                    <img src={p.url} alt="" loading="lazy"/>
-                  </div>
-                </div>
-                <span className="story-label">
-                  {p.caption?.split("\n")[0]?.substring(0,10) || `Photo ${i+1}`}
-                </span>
+        <div className="hl-section">
+          <div className="hl-inner">
+            {photos.slice(0,20).map((p,i)=>(
+              <button key={p.id} className="hl-item" onClick={()=>setSel(p)}>
+                <div className="hl-thumb"><img src={p.url} alt="" loading="lazy"/></div>
+                <span className="hl-lbl">{p.caption?.split("\n")[0]?.slice(0,8)||`#${i+1}`}</span>
               </button>
             ))}
           </div>
         </div>
       )}
 
-      {/* Tabs */}
-      <div className="tabs-bar">
-        <button className="tab-btn active"><Ico.Grid s={13}/> Posts</button>
+      <div className="tabs-section">
+        <div className="tabs-inner">
+          <button className="tab-btn active"><I.Grid s={11}/>Posts</button>
+        </div>
       </div>
 
-      {/* Grid */}
-      <div className="grid-wrap">
+      <div className="grid-section">
         {photos.length === 0 ? (
-          <EmptyState onSync={sync} syncing={syncing}/>
+          <div className="empty-wrap">
+            <I.Camera s={38}/>
+            <h3>No Photos</h3>
+            <p>Post photos to your Telegram channel, then sync.</p>
+            <button className="btn-ghost" onClick={sync} disabled={syncing}
+              style={{padding:"8px 20px",marginTop:4}}>
+              <I.Sync s={12} spin={syncing}/>{syncing?"Syncing…":"Sync Now"}
+            </button>
+          </div>
         ) : (
           <div className="photo-grid">
-            {photos.map(p => (
+            {photos.map(p=>(
               <div key={p.id} className="photo-cell" onClick={()=>setSel(p)}>
-                <img src={p.url} alt={p.caption} loading="lazy"
-                  onError={e=>{e.target.style.display="none"}}/>
-                <div className="photo-overlay">
-                  <span className="overlay-stat">
-                    <Ico.Heart f={true} s={16}/> {likes[p.id] ? 1 : 0}
-                  </span>
-                  <span className="overlay-stat">
-                    <Ico.Comment s={16}/> {(comments[p.id]||[]).length}
-                  </span>
+                <img src={p.url} alt={p.caption} loading="lazy" onError={e=>{e.target.style.opacity="0"}}/>
+                <div className="ov">
+                  <span className="ov-stat"><I.Heart on={true} s={13}/>{likes[p.id]?1:0}</span>
+                  <span className="ov-stat"><I.Msg s={13}/>{(cmts[p.id]||[]).length}</span>
                 </div>
+                {isAdmin && (
+                  <button className="del-btn" onClick={e=>{e.stopPropagation();setConfirmDel(p)}} title="Delete photo">
+                    <I.Trash s={13}/>
+                  </button>
+                )}
               </div>
             ))}
           </div>
         )}
       </div>
 
-      {/* Modal */}
       {sel && (
         <PhotoModal
           photo={sel} photos={photos}
           liked={!!likes[sel.id]}
-          photoComments={comments[sel.id]||[]}
+          comments={cmts[sel.id]||[]}
           onLike={()=>toggleLike(sel.id)}
           onClose={()=>setSel(null)}
           onNav={setSel}
-          onComment={text=>addComment(sel.id,text)}
+          onComment={t=>addCmt(sel.id,t)}
           cfg={cfg}
+          isAdmin={isAdmin}
+          onDelete={p=>setConfirmDel(p)}
         />
       )}
-    </div>
-  );
-}
 
-/* ─── Empty State ────────────────────────────────────────────── */
-function EmptyState({ onSync, syncing }) {
-  return (
-    <div className="empty-state">
-      <div className="empty-icon"><Ico.Camera s={38}/></div>
-      <h3 style={{fontSize:22,fontWeight:300}}>No Photos Yet</h3>
-      <p style={{color:"#a8a8a8",textAlign:"center",maxWidth:280,fontSize:14,lineHeight:1.65}}>
-        Post photos to your Telegram channel, then sync to display them here.
-      </p>
-      <button className="btn-primary" onClick={onSync} disabled={syncing}
-        style={{display:"flex",alignItems:"center",gap:7,padding:"9px 20px"}}>
-        <Ico.Sync s={15} spin={syncing}/> {syncing ? "Syncing…" : "Sync from Telegram"}
-      </button>
-    </div>
-  );
-}
-
-/* ─── Photo Modal ────────────────────────────────────────────── */
-function PhotoModal({ photo, photos, liked, photoComments, onLike, onClose, onNav, onComment, cfg }) {
-  const [text, setText]       = useState("");
-  const [heartAnim, setHA]    = useState(false);
-  const idx = photos.findIndex(p => p.id === photo.id);
-  const dateStr = new Date(photo.date * 1000).toLocaleDateString("en-US", {month:"long",day:"numeric"});
-
-  useEffect(() => {
-    const fn = e => {
-      if (e.key === "Escape") onClose();
-      if (e.key === "ArrowLeft"  && idx > 0)              onNav(photos[idx-1]);
-      if (e.key === "ArrowRight" && idx < photos.length-1) onNav(photos[idx+1]);
-    };
-    window.addEventListener("keydown", fn);
-    return () => window.removeEventListener("keydown", fn);
-  }, [idx, photos, onClose, onNav]);
-
-  const handleLike = () => {
-    if (!liked) { setHA(true); setTimeout(()=>setHA(false), 600); }
-    onLike();
-  };
-  const handlePost = () => { onComment(text); setText(""); };
-
-  return (
-    <div className="modal-overlay" onClick={e=>e.target===e.currentTarget&&onClose()}>
-      <button className="modal-close" onClick={onClose}><Ico.Close s={26}/></button>
-      {idx > 0 && (
-        <button className="modal-nav" style={{left:12,top:"50%",transform:"translateY(-50%)"}} onClick={()=>onNav(photos[idx-1])}>
-          <Ico.ChevL s={22}/>
-        </button>
-      )}
-      {idx < photos.length-1 && (
-        <button className="modal-nav" style={{right:12,top:"50%",transform:"translateY(-50%)"}} onClick={()=>onNav(photos[idx+1])}>
-          <Ico.ChevR s={22}/>
-        </button>
-      )}
-
-      <div className="modal-box">
-        <div className="modal-img-panel">
-          <img src={photo.url} alt={photo.caption}/>
-        </div>
-        <div className="modal-sidebar">
-          {/* Header */}
-          <div className="modal-header">
-            <div className="modal-micro-avatar">
-              <img src={photo.url} alt="" style={{width:"100%",height:"100%",objectFit:"cover"}}/>
+      {confirmDel && (
+        <div className="confirm-overlay" onClick={e=>e.target===e.currentTarget&&setConfirmDel(null)}>
+          <div className="confirm-box">
+            <p className="confirm-title">Delete Photo</p>
+            <p className="confirm-sub">This removes the photo from your portfolio. It stays in your Telegram channel.</p>
+            <div className="confirm-row">
+              <button className="confirm-cancel" onClick={()=>setConfirmDel(null)}>Cancel</button>
+              <button className="confirm-del" onClick={()=>deletePhoto(confirmDel.id)}>Delete</button>
             </div>
-            <span style={{fontWeight:600,fontSize:14}}>{cfg.username||"photographer"}</span>
           </div>
+        </div>
+      )}
+    </div>
+  );
+}
 
-          {/* Caption + Comments */}
-          <div className="modal-scroll">
-            {photo.caption && (
-              <div className="comment-item">
-                <div className="modal-micro-avatar" style={{flexShrink:0}}>
-                  <img src={photo.url} alt="" style={{width:"100%",height:"100%",objectFit:"cover"}}/>
-                </div>
-                <div>
-                  <span style={{fontWeight:600,fontSize:14,marginRight:5}}>{cfg.username||"photographer"}</span>
-                  <span style={{fontSize:14}}>{photo.caption}</span>
-                  <p style={{color:"#737373",fontSize:11,marginTop:4}}>{dateStr}</p>
-                </div>
-              </div>
+function PhotoModal({ photo, photos, liked, comments, onLike, onClose, onNav, onComment, cfg, isAdmin, onDelete }) {
+  const [text, setText] = useState("");
+  const [pop, setPop]   = useState(false);
+  const idx = photos.findIndex(p=>p.id===photo.id);
+  const date = new Date(photo.date*1000).toLocaleDateString("en-US",{month:"short",day:"numeric",year:"numeric"}).toUpperCase();
+
+  useEffect(()=>{
+    const fn = e => {
+      if (e.key==="Escape") onClose();
+      if (e.key==="ArrowLeft"  && idx>0)               onNav(photos[idx-1]);
+      if (e.key==="ArrowRight" && idx<photos.length-1) onNav(photos[idx+1]);
+    };
+    window.addEventListener("keydown",fn);
+    return ()=>window.removeEventListener("keydown",fn);
+  },[idx]);
+
+  const like = () => { if (!liked){setPop(true);setTimeout(()=>setPop(false),500)} onLike(); };
+  const post = () => { onComment(text); setText(""); };
+
+  return (
+    <div className="modal-bg" onClick={e=>e.target===e.currentTarget&&onClose()}>
+      <button className="modal-x" onClick={onClose}><I.X s={15}/></button>
+      {idx>0 && <button className="modal-arr" style={{left:12}} onClick={()=>onNav(photos[idx-1])}><I.ChevL s={15}/></button>}
+      {idx<photos.length-1 && <button className="modal-arr" style={{right:12}} onClick={()=>onNav(photos[idx+1])}><I.ChevR s={15}/></button>}
+      <div className="modal-wrap">
+        <div className="modal-photo"><img src={photo.url} alt={photo.caption}/></div>
+        <div className="modal-side">
+          <div className="modal-head">
+            <div className="modal-mini"><img src={photo.url} alt=""/></div>
+            <span className="modal-uname">{cfg.username||"photographer"}</span>
+            {isAdmin && (
+              <button className="modal-del-btn" style={{marginLeft:"auto"}}
+                onClick={()=>onDelete(photo)}>
+                <I.Trash s={12}/> Delete
+              </button>
             )}
-            {photoComments.map((c,i) => (
-              <div key={i} className="comment-item">
-                <div className="comment-ghost-avatar">👤</div>
-                <div>
-                  <span style={{fontWeight:600,fontSize:14,marginRight:5}}>visitor</span>
-                  <span style={{fontSize:14}}>{c.text}</span>
-                  <p style={{color:"#737373",fontSize:11,marginTop:4}}>
-                    {new Date(c.ts).toLocaleDateString()}
-                  </p>
-                </div>
+          </div>
+          <div className="modal-body">
+            {photo.caption && (
+              <p className="modal-cap"><strong>{cfg.username||"photographer"} </strong>{photo.caption}</p>
+            )}
+            {comments.map((c,i)=>(
+              <div key={i} className="modal-cmt">
+                <p className="modal-cmt-txt"><strong>visitor </strong>{c.text}</p>
+                <p className="modal-cmt-date">{new Date(c.ts).toLocaleDateString("en-US",{month:"short",day:"numeric"}).toUpperCase()}</p>
               </div>
             ))}
           </div>
-
-          {/* Actions */}
-          <div className="modal-actions">
-            <div className="modal-action-row">
-              <button className="action-btn" onClick={handleLike}
-                style={{
-                  color:liked?"#ed4956":"#f5f5f5",
-                  animation:heartAnim?"heartPop .5s ease":""
-                }}>
-                <Ico.Heart f={liked} s={24}/>
+          <div className="modal-acts">
+            <div className="modal-act-row">
+              <button className="act" onClick={like} style={{color:liked?"#fff":"",animation:pop?"heartPop .45s ease":""}}>
+                <I.Heart on={liked} s={22}/>
               </button>
-              <button className="action-btn"><Ico.Comment s={24}/></button>
-              <button className="action-btn"><Ico.Share s={24}/></button>
-              <button className="action-btn" style={{marginLeft:"auto"}}><Ico.Bookmark s={24}/></button>
+              <button className="act"><I.Msg s={22}/></button>
+              <button className="act"><I.Send s={21}/></button>
+              <button className="act" style={{marginLeft:"auto"}}><I.Save s={21}/></button>
             </div>
-            <p style={{fontWeight:600,fontSize:13,marginBottom:3}}>
-              {liked ? "1 like" : "Be the first to like this"}
-            </p>
-            <p style={{color:"#737373",fontSize:10,letterSpacing:.5,textTransform:"uppercase"}}>{dateStr}</p>
+            <p className="modal-lcount">{liked?"1 Like":"Be first to like"}</p>
+            <p className="modal-mdate">{date}</p>
           </div>
-
-          {/* Comment input */}
-          <div className="comment-bar">
-            <input
-              className="comment-input"
-              value={text}
+          <div className="modal-inp-row">
+            <input className="modal-inp" value={text}
               onChange={e=>setText(e.target.value)}
-              onKeyDown={e=>e.key==="Enter"&&handlePost()}
-              placeholder="Add a comment…"
-            />
-            <button className="comment-post" onClick={handlePost} disabled={!text.trim()}>Post</button>
+              onKeyDown={e=>e.key==="Enter"&&post()}
+              placeholder="Add a comment"/>
+            <button className="modal-post-btn" onClick={post} disabled={!text.trim()}>Post</button>
           </div>
         </div>
       </div>
@@ -819,55 +645,100 @@ function PhotoModal({ photo, photos, liked, photoComments, onLike, onClose, onNa
   );
 }
 
-/* ─── Setup Screen ───────────────────────────────────────────── */
-function SetupScreen({ existing, onSave, onCancel }) {
-  const [form, setForm] = useState({
-    username: existing?.username || "",
-    name:     existing?.name     || "",
-    bio:      existing?.bio      || "",
-    website:  existing?.website  || "",
-  });
-  const upd = k => e => setForm(f => ({...f, [k]: e.target.value}));
+function AdminLogin({ onSuccess, onCancel }) {
+  const [pw, setPw]   = useState("");
+  const [err, setErr] = useState("");
+  const [shake, setShake] = useState(false);
+
+  const attempt = () => {
+    if (pw === HARDCODED.adminPw) {
+      onSuccess();
+    } else {
+      setErr("Incorrect password");
+      setShake(true);
+      setPw("");
+      setTimeout(()=>setShake(false), 500);
+    }
+  };
 
   return (
-    <div className="setup-wrap">
-      <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:28}}>
-        <button onClick={onCancel} style={{fontSize:14,color:"#0095f6",fontWeight:600}}>← Back</button>
-        <h2 style={{fontSize:22,fontWeight:700}}>Edit Profile</h2>
-      </div>
-
-      <div style={{display:"flex",flexDirection:"column",gap:14}}>
-        <div>
-          <label className="field-label">Username</label>
-          <input className="field-input" value={form.username} onChange={upd("username")} placeholder="your_username"/>
+    <div style={{minHeight:"100vh",background:"var(--black)"}}>
+      <nav className="nav">
+        <div className="nav-inner">
+          <span className="nav-logo">Leo's POV</span>
+          <button className="nav-icon" onClick={onCancel} title="Cancel"><I.X s={16}/></button>
         </div>
-        <div>
-          <label className="field-label">Display Name</label>
-          <input className="field-input" value={form.name} onChange={upd("name")} placeholder="Your Name"/>
+      </nav>
+      <div className="login-wrap">
+        <div className="login-box" style={shake?{animation:"shake .4s ease"}:{}}>
+          <p className="login-title">Admin</p>
+          <p className="login-sub">Enter password to continue</p>
+          <div>
+            <label className="f-lbl">Password</label>
+            <input
+              className="f-inp"
+              type="password"
+              value={pw}
+              onChange={e=>{setPw(e.target.value);setErr("")}}
+              onKeyDown={e=>e.key==="Enter"&&attempt()}
+              placeholder="••••••••"
+              autoFocus
+            />
+            {err && <p className="login-err">{err}</p>}
+          </div>
+          <div style={{display:"flex",gap:10,marginTop:20}}>
+            <button className="confirm-cancel" style={{flex:1,padding:11}} onClick={onCancel}>Cancel</button>
+            <button className="btn-solid" style={{flex:1,padding:11,fontSize:12,letterSpacing:2}} onClick={attempt} disabled={!pw}>
+              Enter
+            </button>
+          </div>
         </div>
-        <div>
-          <label className="field-label">Bio</label>
-          <textarea className="field-input" value={form.bio} onChange={upd("bio")} rows={3} placeholder="📸 Photographer | 🌍 Travel | ✨ Life"/>
-        </div>
-        <div>
-          <label className="field-label">Website</label>
-          <input className="field-input" value={form.website} onChange={upd("website")} placeholder="https://yoursite.com"/>
-        </div>
-        <button
-          className="btn-primary"
-          style={{width:"100%",padding:12,fontSize:15,marginTop:4}}
-          onClick={()=>onSave(form)}
-        >
-          Save Profile
-        </button>
       </div>
     </div>
   );
 }
 
-/* ─── Bootstrap ──────────────────────────────────────────────── */
-const root = ReactDOM.createRoot(document.getElementById("root"));
-root.render(<App/>);
+function EditProfile({ cfg, onSave, onBack }) {
+  const [f, setF] = useState({
+    username: cfg?.username||"",
+    name:     cfg?.name||"",
+    bio:      cfg?.bio||"",
+    website:  cfg?.website||"",
+  });
+  const upd = k => e => setF(p=>({...p,[k]:e.target.value}));
+  return (
+    <div style={{minHeight:"100vh",background:"var(--black)"}}>
+      <nav className="nav">
+        <div className="nav-inner"><span className="nav-logo">Leo's POV</span></div>
+      </nav>
+      <div className="edit-wrap">
+        <button className="back-btn" onClick={onBack}><I.ChevL s={13}/>Back</button>
+        <h1 className="edit-title">Edit Profile</h1>
+        <div style={{display:"flex",flexDirection:"column",gap:16}}>
+          {[
+            {k:"username",lbl:"Username",ph:"your_username"},
+            {k:"name",    lbl:"Display Name",ph:"Your Name"},
+            {k:"website", lbl:"Website",ph:"https://"},
+          ].map(({k,lbl,ph})=>(
+            <div key={k}>
+              <label className="f-lbl">{lbl}</label>
+              <input className="f-inp" value={f[k]} onChange={upd(k)} placeholder={ph}/>
+            </div>
+          ))}
+          <div>
+            <label className="f-lbl">Bio</label>
+            <textarea className="f-inp" value={f.bio} onChange={upd("bio")} rows={3} placeholder="Photographer. Creator."/>
+          </div>
+          <button className="btn-solid" style={{width:"100%",marginTop:8}} onClick={()=>onSave(f)}>
+            Save Profile
+          </button>
+        </div>
+      </div>
+    </div>
+  );
+}
+
+ReactDOM.createRoot(document.getElementById("root")).render(<App/>);
 </script>
 </body>
 </html>
