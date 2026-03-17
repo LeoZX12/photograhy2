@@ -10,18 +10,31 @@
 <script src="https://cdnjs.cloudflare.com/ajax/libs/react-dom/18.2.0/umd/react-dom.production.min.js"></script>
 <script src="https://cdnjs.cloudflare.com/ajax/libs/babel-standalone/7.23.2/babel.min.js"></script>
 <style>
+:root{
+  --bg:#000;
+  --bg2:#121212;
+  --bg3:#1a1a1a;
+  --bg4:#262626;
+  --border:#262626;
+  --border2:#363636;
+  --text:#f5f5f5;
+  --text2:#a8a8a8;
+  --text3:#737373;
+  --accent:#0095f6;
+  --card:#1c1c1c;
+}
 *,*::before,*::after{box-sizing:border-box;margin:0;padding:0}
-html,body{height:100%;background:#fafafa}
-body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:#262626}
+html,body{height:100%;background:var(--bg)}
+body{font-family:-apple-system,BlinkMacSystemFont,"Segoe UI",Roboto,Helvetica,Arial,sans-serif;color:var(--text)}
 button{cursor:pointer;background:none;border:none;font-family:inherit;color:inherit}
 input,textarea{font-family:inherit;outline:none}
 a{text-decoration:none;color:inherit}
 img{display:block}
-code{font-family:monospace;background:#f3f3f3;padding:1px 5px;border-radius:3px;font-size:12px}
+code{font-family:monospace;background:var(--bg4);color:#e0e0e0;padding:1px 5px;border-radius:3px;font-size:12px}
 
 ::-webkit-scrollbar{width:4px;height:4px}
 ::-webkit-scrollbar-track{background:transparent}
-::-webkit-scrollbar-thumb{background:#c7c7c7;border-radius:2px}
+::-webkit-scrollbar-thumb{background:#333;border-radius:2px}
 
 @keyframes spin{to{transform:rotate(360deg)}}
 @keyframes fadeIn{from{opacity:0}to{opacity:1}}
@@ -31,7 +44,7 @@ code{font-family:monospace;background:#f3f3f3;padding:1px 5px;border-radius:3px;
 @keyframes pulse{0%,100%{opacity:1}50%{opacity:.5}}
 
 .skeleton{
-  background:linear-gradient(90deg,#f0f0f0 25%,#e8e8e8 50%,#f0f0f0 75%);
+  background:linear-gradient(90deg,#1c1c1c 25%,#2a2a2a 50%,#1c1c1c 75%);
   background-size:400% 100%;
   animation:shimmer 1.4s ease infinite;
 }
@@ -39,9 +52,9 @@ code{font-family:monospace;background:#f3f3f3;padding:1px 5px;border-radius:3px;
 /* ── Nav ───────────────────────────────────────── */
 .nav{
   position:sticky;top:0;z-index:100;
-  background:rgba(255,255,255,0.95);
-  backdrop-filter:blur(8px);
-  border-bottom:1px solid #dbdbdb;
+  background:rgba(0,0,0,0.92);
+  backdrop-filter:blur(10px);
+  border-bottom:1px solid var(--border);
   height:54px;display:flex;align-items:center;
 }
 .nav-inner{
@@ -58,14 +71,14 @@ code{font-family:monospace;background:#f3f3f3;padding:1px 5px;border-radius:3px;
 .nav-actions{display:flex;align-items:center;gap:14px}
 .nav-btn{
   display:flex;align-items:center;gap:5px;
-  font-size:13px;font-weight:600;color:#262626;
+  font-size:13px;font-weight:600;color:var(--text);
   padding:6px 10px;border-radius:8px;
   transition:background .15s;
 }
-.nav-btn:hover{background:#f0f0f0}
+.nav-btn:hover{background:var(--bg4)}
 
 /* ── Profile ────────────────────────────────────── */
-.profile-wrap{background:white;border-bottom:1px solid #dbdbdb}
+.profile-wrap{background:var(--bg);border-bottom:1px solid var(--border)}
 .profile-inner{
   max-width:935px;margin:0 auto;
   padding:28px 20px 20px;
@@ -74,8 +87,8 @@ code{font-family:monospace;background:#f3f3f3;padding:1px 5px;border-radius:3px;
 .profile-avatar{
   width:92px;height:92px;border-radius:50%;
   overflow:hidden;flex-shrink:0;
-  border:1px solid #dbdbdb;
-  background:#efefef;
+  border:1px solid var(--border2);
+  background:var(--bg4);
   display:flex;align-items:center;justify-content:center;
 }
 .profile-avatar-ring{
@@ -85,21 +98,21 @@ code{font-family:monospace;background:#f3f3f3;padding:1px 5px;border-radius:3px;
 }
 .profile-avatar-ring-inner{
   width:100%;height:100%;border-radius:50%;
-  overflow:hidden;border:2px solid white;background:#efefef;
+  overflow:hidden;border:2px solid var(--bg);background:var(--bg4);
 }
 .profile-info{flex:1;min-width:0}
 .profile-row1{display:flex;align-items:center;gap:14px;flex-wrap:wrap;margin-bottom:14px}
-.profile-username{font-size:20px;font-weight:300}
+.profile-username{font-size:20px;font-weight:300;color:var(--text)}
 .profile-stats{display:flex;gap:28px;margin-bottom:10px;flex-wrap:wrap}
-.profile-stat{font-size:15px}
+.profile-stat{font-size:15px;color:var(--text)}
 .profile-stat strong{font-weight:600}
-.profile-name{font-weight:600;font-size:14px;margin-bottom:3px}
-.profile-bio{font-size:14px;line-height:1.5;white-space:pre-wrap}
-.profile-link{font-size:14px;color:#00376b;font-weight:500}
+.profile-name{font-weight:600;font-size:14px;margin-bottom:3px;color:var(--text)}
+.profile-bio{font-size:14px;line-height:1.5;white-space:pre-wrap;color:var(--text)}
+.profile-link{font-size:14px;color:#5ba3d9;font-weight:500}
 .tg-badge{
   display:inline-flex;align-items:center;gap:5px;
-  font-size:12px;color:#0088cc;font-weight:500;
-  background:#e8f4fb;padding:3px 8px;border-radius:20px;
+  font-size:12px;color:#5ba3d9;font-weight:500;
+  background:rgba(0,136,204,0.15);padding:3px 8px;border-radius:20px;
 }
 
 /* ── Buttons ────────────────────────────────────── */
@@ -109,19 +122,19 @@ code{font-family:monospace;background:#f3f3f3;padding:1px 5px;border-radius:3px;
   border-radius:8px;font-size:14px;font-weight:600;
   transition:background .2s,transform .1s;
 }
-.btn-primary:hover{background:#0074cc}
+.btn-primary:hover{background:#1aa3ff}
 .btn-primary:active{transform:scale(0.98)}
-.btn-primary:disabled{background:#b2dffc;cursor:not-allowed;transform:none}
+.btn-primary:disabled{background:#0060a0;cursor:not-allowed;transform:none;color:#9ec8ea}
 .btn-outline{
-  padding:6px 14px;background:white;color:#262626;
-  border:1px solid #dbdbdb;border-radius:8px;
+  padding:6px 14px;background:transparent;color:var(--text);
+  border:1px solid var(--border2);border-radius:8px;
   font-size:13px;font-weight:600;
   transition:background .15s;
 }
-.btn-outline:hover{background:#f5f5f5}
+.btn-outline:hover{background:var(--bg4)}
 
 /* ── Stories ─────────────────────────────────────── */
-.stories-section{background:white;border-bottom:1px solid #dbdbdb}
+.stories-section{background:var(--bg);border-bottom:1px solid var(--border)}
 .stories-bar{
   max-width:935px;margin:0 auto;
   display:flex;gap:16px;overflow-x:auto;
@@ -141,29 +154,29 @@ code{font-family:monospace;background:#f3f3f3;padding:1px 5px;border-radius:3px;
 }
 .story-ring-inner{
   width:100%;height:100%;border-radius:50%;
-  overflow:hidden;border:2.5px solid white;
-  background:#efefef;
+  overflow:hidden;border:2.5px solid var(--bg);
+  background:var(--bg4);
 }
 .story-ring-inner img{width:100%;height:100%;object-fit:cover}
-.story-label{font-size:11px;color:#262626;max-width:66px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
+.story-label{font-size:11px;color:var(--text2);max-width:66px;overflow:hidden;text-overflow:ellipsis;white-space:nowrap;text-align:center}
 
 /* ── Tabs ────────────────────────────────────────── */
-.tabs-bar{background:white;border-bottom:1px solid #dbdbdb;display:flex;justify-content:center;gap:40px}
+.tabs-bar{background:var(--bg);border-bottom:1px solid var(--border);display:flex;justify-content:center;gap:40px}
 .tab-btn{
   padding:12px 2px;font-size:12px;font-weight:600;
-  letter-spacing:1px;color:#8e8e8e;text-transform:uppercase;
+  letter-spacing:1px;color:var(--text3);text-transform:uppercase;
   border-top:1px solid transparent;margin-top:-1px;
   display:flex;align-items:center;gap:5px;
   transition:color .15s;
 }
-.tab-btn.active{color:#262626;border-top-color:#262626}
+.tab-btn.active{color:var(--text);border-top-color:var(--text)}
 
 /* ── Photo Grid ─────────────────────────────────── */
 .grid-wrap{max-width:935px;margin:0 auto;padding-bottom:60px}
 .photo-grid{display:grid;grid-template-columns:repeat(3,1fr);gap:3px;padding:3px}
 .photo-cell{
   position:relative;aspect-ratio:1/1;overflow:hidden;
-  cursor:pointer;background:#efefef;
+  cursor:pointer;background:var(--bg3);
 }
 .photo-cell img{width:100%;height:100%;object-fit:cover;transition:transform .25s ease}
 .photo-cell:hover img{transform:scale(1.05)}
@@ -172,7 +185,7 @@ code{font-family:monospace;background:#f3f3f3;padding:1px 5px;border-radius:3px;
   display:flex;align-items:center;justify-content:center;gap:24px;
   transition:background .2s;pointer-events:none;
 }
-.photo-cell:hover .photo-overlay{background:rgba(0,0,0,0.32)}
+.photo-cell:hover .photo-overlay{background:rgba(0,0,0,0.45)}
 .overlay-stat{
   color:white;font-size:14px;font-weight:700;
   display:flex;align-items:center;gap:4px;
@@ -187,26 +200,27 @@ code{font-family:monospace;background:#f3f3f3;padding:1px 5px;border-radius:3px;
 }
 .empty-icon{
   width:88px;height:88px;border-radius:50%;
-  border:2px solid #dbdbdb;
+  border:2px solid var(--border2);
   display:flex;align-items:center;justify-content:center;
-  color:#8e8e8e;
+  color:var(--text3);
 }
 
 /* ── Modal ───────────────────────────────────────── */
 .modal-overlay{
   position:fixed;inset:0;z-index:1000;
-  background:rgba(0,0,0,0.88);
+  background:rgba(0,0,0,0.92);
   display:flex;align-items:center;justify-content:center;
   animation:fadeIn .15s ease;
 }
 .modal-box{
-  background:white;display:flex;
+  background:var(--card);display:flex;
   width:min(940px,95vw);max-height:92vh;
   border-radius:4px;overflow:hidden;
   animation:slideUp .2s ease;
+  border:1px solid var(--border);
 }
 .modal-img-panel{
-  flex:1;background:#1a1a1a;
+  flex:1;background:#0a0a0a;
   display:flex;align-items:center;justify-content:center;
   min-height:400px;min-width:0;
 }
@@ -214,39 +228,40 @@ code{font-family:monospace;background:#f3f3f3;padding:1px 5px;border-radius:3px;
 .modal-sidebar{
   width:340px;flex-shrink:0;
   display:flex;flex-direction:column;
-  border-left:1px solid #dbdbdb;
+  border-left:1px solid var(--border);
+  background:var(--card);
 }
 .modal-header{
-  padding:14px 16px;border-bottom:1px solid #dbdbdb;
+  padding:14px 16px;border-bottom:1px solid var(--border);
   display:flex;align-items:center;gap:10px;
 }
 .modal-micro-avatar{
   width:32px;height:32px;border-radius:50%;overflow:hidden;flex-shrink:0;
 }
 .modal-scroll{flex:1;overflow-y:auto;padding:16px}
-.modal-actions{border-top:1px solid #dbdbdb;padding:8px 16px}
+.modal-actions{border-top:1px solid var(--border);padding:8px 16px}
 .modal-action-row{display:flex;gap:14px;align-items:center;margin-bottom:8px}
-.action-btn{color:#262626;display:flex;align-items:center;transition:transform .1s}
+.action-btn{color:var(--text);display:flex;align-items:center;transition:transform .1s}
 .action-btn:hover{transform:scale(1.1)}
 .comment-bar{
-  border-top:1px solid #dbdbdb;
+  border-top:1px solid var(--border);
   display:flex;align-items:center;
   padding:9px 16px;gap:8px;
 }
-.comment-input{flex:1;font-size:14px;border:none;background:none;color:#262626}
-.comment-input::placeholder{color:#8e8e8e}
+.comment-input{flex:1;font-size:14px;border:none;background:none;color:var(--text)}
+.comment-input::placeholder{color:var(--text3)}
 .comment-post{color:#0095f6;font-weight:600;font-size:14px;transition:opacity .15s}
-.comment-post:disabled{opacity:0.4;cursor:default}
+.comment-post:disabled{opacity:0.35;cursor:default}
 .modal-nav{
   position:fixed;
   width:44px;height:44px;border-radius:50%;
-  background:rgba(255,255,255,0.15);
+  background:rgba(255,255,255,0.12);
   border:none;cursor:pointer;
   display:flex;align-items:center;justify-content:center;
   color:white;z-index:1001;
   transition:background .2s;
 }
-.modal-nav:hover{background:rgba(255,255,255,0.28)}
+.modal-nav:hover{background:rgba(255,255,255,0.22)}
 .modal-close{
   position:fixed;top:14px;right:14px;
   color:white;z-index:1001;
@@ -258,7 +273,7 @@ code{font-family:monospace;background:#f3f3f3;padding:1px 5px;border-radius:3px;
 /* ── Setup ───────────────────────────────────────── */
 .setup-wrap{max-width:480px;margin:0 auto;padding:52px 20px;animation:fadeIn .3s}
 .setup-step-card{
-  background:white;border:1px solid #dbdbdb;
+  background:var(--card);border:1px solid var(--border2);
   border-radius:12px;padding:22px;margin-bottom:18px;
 }
 .setup-step-row{display:flex;gap:12px;margin-bottom:14px}
@@ -268,15 +283,16 @@ code{font-family:monospace;background:#f3f3f3;padding:1px 5px;border-radius:3px;
   display:flex;align-items:center;justify-content:center;
   font-weight:700;font-size:12px;flex-shrink:0;
 }
-.field-label{display:block;font-size:13px;font-weight:600;margin-bottom:5px}
+.field-label{display:block;font-size:13px;font-weight:600;margin-bottom:5px;color:var(--text)}
 .field-input{
   display:block;width:100%;
   padding:9px 12px;
-  border:1px solid #dbdbdb;border-radius:6px;
-  font-size:14px;background:#fafafa;
+  border:1px solid var(--border2);border-radius:6px;
+  font-size:14px;background:var(--bg3);color:var(--text);
   transition:border-color .2s,background .2s;
 }
-.field-input:focus{border-color:#8e8e8e;background:white}
+.field-input:focus{border-color:#555;background:var(--bg4)}
+.field-input::placeholder{color:var(--text3)}
 textarea.field-input{resize:vertical}
 .sync-msg-ok{color:#2ecc71;font-size:12px;margin-top:4px}
 .sync-msg-err{color:#ed4956;font-size:12px;margin-top:4px}
@@ -285,14 +301,14 @@ textarea.field-input{resize:vertical}
 .comment-item{display:flex;gap:10px;margin-bottom:14px}
 .comment-ghost-avatar{
   width:32px;height:32px;border-radius:50%;
-  background:#efefef;display:flex;align-items:center;
+  background:var(--bg4);display:flex;align-items:center;
   justify-content:center;font-size:15px;flex-shrink:0;
 }
 
 /* Responsive */
 @media(max-width:680px){
   .modal-box{flex-direction:column;width:100vw;max-height:100vh;border-radius:0}
-  .modal-sidebar{width:100%;border-left:none;border-top:1px solid #dbdbdb}
+  .modal-sidebar{width:100%;border-left:none;border-top:1px solid var(--border)}
   .modal-img-panel{min-height:52vw}
   .profile-inner{gap:20px}
   .photo-grid{gap:2px;padding:2px}
@@ -613,7 +629,7 @@ function EmptyState({ onSync, syncing }) {
     <div className="empty-state">
       <div className="empty-icon"><Ico.Camera s={38}/></div>
       <h3 style={{fontSize:22,fontWeight:300}}>No Photos Yet</h3>
-      <p style={{color:"#8e8e8e",textAlign:"center",maxWidth:280,fontSize:14,lineHeight:1.65}}>
+      <p style={{color:"#a8a8a8",textAlign:"center",maxWidth:280,fontSize:14,lineHeight:1.65}}>
         Post photos to your Telegram channel, then sync to display them here.
       </p>
       <button className="btn-primary" onClick={onSync} disabled={syncing}
@@ -684,7 +700,7 @@ function PhotoModal({ photo, photos, liked, photoComments, onLike, onClose, onNa
                 <div>
                   <span style={{fontWeight:600,fontSize:14,marginRight:5}}>{cfg.username||"photographer"}</span>
                   <span style={{fontSize:14}}>{photo.caption}</span>
-                  <p style={{color:"#8e8e8e",fontSize:11,marginTop:4}}>{dateStr}</p>
+                  <p style={{color:"#737373",fontSize:11,marginTop:4}}>{dateStr}</p>
                 </div>
               </div>
             )}
@@ -694,7 +710,7 @@ function PhotoModal({ photo, photos, liked, photoComments, onLike, onClose, onNa
                 <div>
                   <span style={{fontWeight:600,fontSize:14,marginRight:5}}>visitor</span>
                   <span style={{fontSize:14}}>{c.text}</span>
-                  <p style={{color:"#8e8e8e",fontSize:11,marginTop:4}}>
+                  <p style={{color:"#737373",fontSize:11,marginTop:4}}>
                     {new Date(c.ts).toLocaleDateString()}
                   </p>
                 </div>
@@ -707,7 +723,7 @@ function PhotoModal({ photo, photos, liked, photoComments, onLike, onClose, onNa
             <div className="modal-action-row">
               <button className="action-btn" onClick={handleLike}
                 style={{
-                  color:liked?"#ed4956":"#262626",
+                  color:liked?"#ed4956":"#f5f5f5",
                   animation:heartAnim?"heartPop .5s ease":""
                 }}>
                 <Ico.Heart f={liked} s={24}/>
@@ -719,7 +735,7 @@ function PhotoModal({ photo, photos, liked, photoComments, onLike, onClose, onNa
             <p style={{fontWeight:600,fontSize:13,marginBottom:3}}>
               {liked ? "1 like" : "Be the first to like this"}
             </p>
-            <p style={{color:"#8e8e8e",fontSize:10,letterSpacing:.5,textTransform:"uppercase"}}>{dateStr}</p>
+            <p style={{color:"#737373",fontSize:10,letterSpacing:.5,textTransform:"uppercase"}}>{dateStr}</p>
           </div>
 
           {/* Comment input */}
@@ -776,7 +792,7 @@ function SetupScreen({ existing, onSave, onCancel }) {
           </svg>
         </div>
         <h1 style={{fontSize:28,fontWeight:700,marginBottom:8}}>Telegram Portfolio</h1>
-        <p style={{color:"#8e8e8e",fontSize:15,lineHeight:1.65,maxWidth:380,margin:"0 auto"}}>
+        <p style={{color:"#a8a8a8",fontSize:15,lineHeight:1.65,maxWidth:380,margin:"0 auto"}}>
           An Instagram-style photo portfolio — with Telegram's free cloud as your database.
         </p>
       </div>
@@ -793,7 +809,7 @@ function SetupScreen({ existing, onSave, onCancel }) {
             <div className="setup-step-num">{n}</div>
             <div>
               <p style={{fontWeight:600,fontSize:14}}>{t}</p>
-              <p style={{fontSize:13,color:"#8e8e8e",marginTop:2,lineHeight:1.5}}>{d}</p>
+              <p style={{fontSize:13,color:"#a8a8a8",marginTop:2,lineHeight:1.5}}>{d}</p>
             </div>
           </div>
         ))}
@@ -826,19 +842,19 @@ function SetupScreen({ existing, onSave, onCancel }) {
             </button>
           </div>
           {testMsg && <p className={testMsg.startsWith("✓")?"sync-msg-ok":"sync-msg-err"}>{testMsg}</p>}
-          <p style={{fontSize:11,color:"#8e8e8e",marginTop:4}}>Get from @BotFather on Telegram</p>
+          <p style={{fontSize:11,color:"#a8a8a8",marginTop:4}}>Get from @BotFather on Telegram</p>
         </div>
 
         {/* Chat ID */}
         <div>
           <label className="field-label">Chat / Channel ID *</label>
           <input className="field-input" value={form.chatId} onChange={upd("chatId")} placeholder="@mychannel or -1001234567890"/>
-          <p style={{fontSize:11,color:"#8e8e8e",marginTop:4}}>The channel or group where your photos live</p>
+          <p style={{fontSize:11,color:"#a8a8a8",marginTop:4}}>The channel or group where your photos live</p>
         </div>
 
         {/* Profile */}
-        <div style={{borderTop:"1px solid #dbdbdb",paddingTop:16,marginTop:4}}>
-          <p style={{fontSize:11,fontWeight:700,color:"#8e8e8e",textTransform:"uppercase",letterSpacing:.8,marginBottom:14}}>
+        <div style={{borderTop:"1px solid #2a2a2a",paddingTop:16,marginTop:4}}>
+          <p style={{fontSize:11,fontWeight:700,color:"#737373",textTransform:"uppercase",letterSpacing:.8,marginBottom:14}}>
             Profile Info
           </p>
           <div style={{display:"flex",flexDirection:"column",gap:12}}>
