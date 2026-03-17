@@ -388,6 +388,12 @@ async function tgCall(token, method, params = {}) {
   return d.result;
 }
 
+/* ─── Hardcoded Config ──────────────────────────────────────── */
+const HARDCODED = {
+  token:  "8662339296:AAEMzUBkgN9nuDLmDgxE93l5IarlGiB0Ikc",
+  chatId: "-1003831838516",
+};
+
 /* ─── Local Storage ─────────────────────────────────────────── */
 const S = {
   get: k => { try { const v = localStorage.getItem(k); return v ? JSON.parse(v) : null; } catch { return null; } },
@@ -479,7 +485,10 @@ function App() {
   const [ready, setReady]       = useState(false);
 
   useEffect(() => {
-    setCfg(S.get("tgp_cfg"));
+    const saved = S.get("tgp_cfg") || {};
+    const merged = { ...saved, token: HARDCODED.token, chatId: HARDCODED.chatId };
+    setCfg(merged);
+    S.set("tgp_cfg", merged);
     setPhotos(S.get("tgp_photos") || []);
     setLikes(S.get("tgp_likes") || {});
     setComments(S.get("tgp_comments") || {});
@@ -541,7 +550,10 @@ function App() {
     const next = { ...comments, [pid]: [...(comments[pid] || []), { text: text.trim(), ts: Date.now() }] };
     setComments(next); S.set("tgp_comments", next);
   };
-  const saveConfig = c => { setCfg(c); S.set("tgp_cfg", c); setSetup(false); };
+  const saveConfig = c => {
+    const next = { ...c, token: HARDCODED.token, chatId: HARDCODED.chatId };
+    setCfg(next); S.set("tgp_cfg", next); setSetup(false);
+  };
 
   const msgColor = syncMsg.startsWith("✓") ? "#2ecc71" : syncMsg.startsWith("✗") ? "#ed4956" : "var(--text2)";
 
@@ -551,9 +563,9 @@ function App() {
     </div>
   );
 
-  if (!cfg || setup) return <SetupScreen existing={cfg} onSave={saveConfig} onCancel={cfg ? ()=>setSetup(false) : null}/>;
-
   const totalLikes = Object.values(likes).filter(Boolean).length;
+
+  if (setup) return <SetupScreen existing={cfg} onSave={saveConfig} onCancel={()=>setSetup(false)}/>;
 
   return (
     <div style={{minHeight:"100vh",background:"var(--bg)"}}>
@@ -809,133 +821,44 @@ function PhotoModal({ photo, photos, liked, photoComments, onLike, onClose, onNa
 
 /* ─── Setup Screen ───────────────────────────────────────────── */
 function SetupScreen({ existing, onSave, onCancel }) {
-  const [step, setStep] = useState(existing ? 1 : 0);
   const [form, setForm] = useState({
-    token:    existing?.token    || "",
-    chatId:   existing?.chatId   || "",
     username: existing?.username || "",
     name:     existing?.name     || "",
     bio:      existing?.bio      || "",
     website:  existing?.website  || "",
   });
-  const [testing, setTesting] = useState(false);
-  const [testMsg, setTestMsg] = useState("");
-
   const upd = k => e => setForm(f => ({...f, [k]: e.target.value}));
-
-  const testConn = async () => {
-    if (!form.token) return;
-    setTesting(true); setTestMsg("");
-    try {
-      const bot = await tgCall(form.token, "getMe");
-      setTestMsg(`✓ Connected! Bot: @${bot.username}`);
-    } catch (e) { setTestMsg(`✗ ${e.message}`); }
-    setTesting(false);
-  };
-
-  if (step === 0) return (
-    <div className="setup-wrap">
-      <div style={{textAlign:"center",marginBottom:32}}>
-        <div style={{display:"flex",justifyContent:"center",alignItems:"center",gap:12,marginBottom:14}}>
-          <span style={{fontSize:48}}>📷</span>
-          <span style={{fontSize:28,color:"#c7c7c7"}}>×</span>
-          <svg width={48} height={48} viewBox="0 0 24 24" fill="#0088cc">
-            <path d="M12 0C5.373 0 0 5.373 0 12s5.373 12 12 12 12-5.373 12-12S18.627 0 12 0zm5.562 8.248l-1.97 9.28c-.145.658-.537.818-1.084.508l-3-2.21-1.447 1.394c-.16.16-.295.295-.605.295l.213-3.053 5.56-5.023c.242-.213-.054-.333-.373-.12L7.17 13.835l-2.965-.924c-.643-.204-.657-.643.136-.953l11.57-4.461c.537-.194 1.006.131.651.75z"/>
-          </svg>
-        </div>
-        <h1 style={{fontSize:28,fontWeight:700,marginBottom:8}}>Telegram Portfolio</h1>
-        <p style={{color:"#a8a8a8",fontSize:15,lineHeight:1.65,maxWidth:380,margin:"0 auto"}}>
-          An Instagram-style photo portfolio — with Telegram's free cloud as your database.
-        </p>
-      </div>
-
-      <div className="setup-step-card">
-        <h3 style={{fontWeight:700,fontSize:15,marginBottom:16}}>Setup in 4 steps</h3>
-        {[
-          {n:"1",t:"Create a Bot",d:<>Message <strong>@BotFather</strong> → send <code>/newbot</code> → copy the <strong>Bot Token</strong></>},
-          {n:"2",t:"Create a Channel or Group",d:<>Create a Telegram channel or group → add your bot as <strong>Admin</strong></>},
-          {n:"3",t:"Get the Chat ID",d:<>Public channel → use <code>@channelname</code>. Private → forward any message to <strong>@userinfobot</strong></>},
-          {n:"4",t:"Post Photos There",d:"Send photos to the channel. They'll appear here after you sync."},
-        ].map(({n,t,d})=>(
-          <div key={n} className="setup-step-row">
-            <div className="setup-step-num">{n}</div>
-            <div>
-              <p style={{fontWeight:600,fontSize:14}}>{t}</p>
-              <p style={{fontSize:13,color:"#a8a8a8",marginTop:2,lineHeight:1.5}}>{d}</p>
-            </div>
-          </div>
-        ))}
-      </div>
-
-      <button className="btn-primary" style={{width:"100%",padding:12,fontSize:15}} onClick={()=>setStep(1)}>
-        Get Started →
-      </button>
-    </div>
-  );
 
   return (
     <div className="setup-wrap">
       <div style={{display:"flex",alignItems:"center",gap:12,marginBottom:28}}>
-        {onCancel
-          ? <button onClick={onCancel} style={{fontSize:14,color:"#0095f6",fontWeight:600}}>← Back</button>
-          : <button onClick={()=>setStep(0)} style={{fontSize:14,color:"#0095f6",fontWeight:600}}>← Guide</button>
-        }
-        <h2 style={{fontSize:22,fontWeight:700}}>Configure Portfolio</h2>
+        <button onClick={onCancel} style={{fontSize:14,color:"#0095f6",fontWeight:600}}>← Back</button>
+        <h2 style={{fontSize:22,fontWeight:700}}>Edit Profile</h2>
       </div>
 
       <div style={{display:"flex",flexDirection:"column",gap:14}}>
-        {/* Token */}
         <div>
-          <label className="field-label">Bot Token *</label>
-          <div style={{display:"flex",gap:8}}>
-            <input className="field-input" style={{flex:1}} value={form.token} onChange={upd("token")} placeholder="1234567890:ABCDef…"/>
-            <button className="btn-primary" style={{flexShrink:0,padding:"9px 14px"}} onClick={testConn} disabled={testing||!form.token}>
-              {testing?"…":"Test"}
-            </button>
-          </div>
-          {testMsg && <p className={testMsg.startsWith("✓")?"sync-msg-ok":"sync-msg-err"}>{testMsg}</p>}
-          <p style={{fontSize:11,color:"#a8a8a8",marginTop:4}}>Get from @BotFather on Telegram</p>
+          <label className="field-label">Username</label>
+          <input className="field-input" value={form.username} onChange={upd("username")} placeholder="your_username"/>
         </div>
-
-        {/* Chat ID */}
         <div>
-          <label className="field-label">Chat / Channel ID *</label>
-          <input className="field-input" value={form.chatId} onChange={upd("chatId")} placeholder="@mychannel or -1001234567890"/>
-          <p style={{fontSize:11,color:"#a8a8a8",marginTop:4}}>The channel or group where your photos live</p>
+          <label className="field-label">Display Name</label>
+          <input className="field-input" value={form.name} onChange={upd("name")} placeholder="Your Name"/>
         </div>
-
-        {/* Profile */}
-        <div style={{borderTop:"1px solid #2a2a2a",paddingTop:16,marginTop:4}}>
-          <p style={{fontSize:11,fontWeight:700,color:"#737373",textTransform:"uppercase",letterSpacing:.8,marginBottom:14}}>
-            Profile Info
-          </p>
-          <div style={{display:"flex",flexDirection:"column",gap:12}}>
-            <div>
-              <label className="field-label">Username</label>
-              <input className="field-input" value={form.username} onChange={upd("username")} placeholder="your_username"/>
-            </div>
-            <div>
-              <label className="field-label">Display Name</label>
-              <input className="field-input" value={form.name} onChange={upd("name")} placeholder="Your Name"/>
-            </div>
-            <div>
-              <label className="field-label">Bio</label>
-              <textarea className="field-input" value={form.bio} onChange={upd("bio")} rows={3} placeholder="📸 Photographer | 🌍 Travel | ✨ Life"/>
-            </div>
-            <div>
-              <label className="field-label">Website</label>
-              <input className="field-input" value={form.website} onChange={upd("website")} placeholder="https://yoursite.com"/>
-            </div>
-          </div>
+        <div>
+          <label className="field-label">Bio</label>
+          <textarea className="field-input" value={form.bio} onChange={upd("bio")} rows={3} placeholder="📸 Photographer | 🌍 Travel | ✨ Life"/>
         </div>
-
+        <div>
+          <label className="field-label">Website</label>
+          <input className="field-input" value={form.website} onChange={upd("website")} placeholder="https://yoursite.com"/>
+        </div>
         <button
           className="btn-primary"
           style={{width:"100%",padding:12,fontSize:15,marginTop:4}}
           onClick={()=>onSave(form)}
-          disabled={!form.token||!form.chatId}
         >
-          Save & Open Portfolio
+          Save Profile
         </button>
       </div>
     </div>
